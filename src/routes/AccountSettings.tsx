@@ -3,7 +3,8 @@ import { Link } from "react-router-dom";
 
 export default function AccountSettings() {
   // Mock user data
-  const [userData, setUserData] = useState({
+  // We're using useState but will implement real updater functions in a later step
+  const [userData, /* eslint-disable-line @typescript-eslint/no-unused-vars */ setUserData] = useState({
     name: "Admin User",
     email: "admin@innsight.com",
     role: "Admin",
@@ -20,29 +21,30 @@ export default function AccountSettings() {
   };
 
   return (
-    <div>
-      <div>
-        <Link to="/settings/app">App Settings</Link> | 
-        <Link to="/settings/account">Account Settings</Link>
+    <div className="card max-w-3xl mx-auto">
+      <div className="flex gap-4 mb-6 border-b border-border pb-4">
+        <Link to="/settings/app" className="text-text-muted hover:text-text-main">App Settings</Link>
+        <Link to="/settings/account" className="font-medium text-primary">Account Settings</Link>
       </div>
 
       <h1>Account Settings</h1>
-      <p>Update your personal account details.</p>
+      <p className="text-text-muted mb-8">Update your personal account details.</p>
 
-      <div>
+      <div className="flex items-center gap-6 mb-8">
         {userData.avatar && (
           <img 
             src={userData.avatar} 
             alt="Profile" 
-            style={{ width: "100px", height: "100px", borderRadius: "50%" }}
+            className="w-24 h-24 rounded-full object-cover border border-border"
           />
         )}
         <div>
-          <button>Upload New Avatar</button>
+          <button className="btn-secondary">Upload New Avatar</button>
+          <p className="text-sm text-text-muted mt-1">JPG, PNG or GIF. Max size 2MB.</p>
         </div>
       </div>
 
-      <form>
+      <form className="space-y-6">
         <div>
           <label htmlFor="name">Full Name</label>
           <input 
@@ -64,17 +66,21 @@ export default function AccountSettings() {
         </div>
 
         <div>
-          <label>User Role</label>
-          <div>{userData.role}</div>
-          <p><i>Roles can only be changed by system administrators</i></p>
+          <label className="block">User Role</label>
+          <div className="py-2 px-3 bg-bg-base rounded-md border border-border">{userData.role}</div>
+          <p className="text-sm text-text-muted italic mt-1">Roles can only be changed by system administrators</p>
         </div>
 
-        <button type="button" onClick={handleSave}>Save Account Settings</button>
+        <div className="pt-4 border-t border-border mt-8">
+          <button type="button" className="btn-primary" onClick={handleSave}>Save Account Settings</button>
+        </div>
       </form>
 
-      <div>
+      <div className="mt-12">
         <h2>Change Password</h2>
-        <form>
+        <p className="text-text-muted mb-6">Ensure your account is using a secure password.</p>
+        
+        <form className="space-y-6">
           <div>
             <label htmlFor="currentPassword">Current Password</label>
             <input 
@@ -105,7 +111,9 @@ export default function AccountSettings() {
             />
           </div>
 
-          <button type="button" onClick={handlePasswordChange}>Update Password</button>
+          <div className="pt-4">
+            <button type="button" className="btn-primary" onClick={handlePasswordChange}>Update Password</button>
+          </div>
         </form>
       </div>
     </div>
