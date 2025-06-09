@@ -6,13 +6,11 @@ export default function AppLayout() {
   return (
     <div className="app-layout">
       <Sidebar />
-      <div className="main-content">
-        <Header />
-        <main className="content">
-          {/* Outlet renders the matched child route component */}
-          <Outlet />
-        </main>
-      </div>
+      <Header />
+      <main className="content">
+        {/* Outlet renders the matched child route component */}
+        <Outlet />
+      </main>
     </div>
   );
 }
