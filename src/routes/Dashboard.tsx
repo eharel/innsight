@@ -1,3 +1,5 @@
+import { MetricCard } from "../components/dashboard/MetricCard";
+
 export default function Dashboard() {
   return (
     <div className="space-y-8">
@@ -7,25 +9,27 @@ export default function Dashboard() {
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div className="card bg-bg-surface">
-          <h3 className="text-lg font-medium mb-2">Bookings Today</h3>
-          <p className="text-3xl font-bold text-primary">8</p>
-        </div>
+        <MetricCard 
+          title="Bookings Today" 
+          value={8} 
+          trend={{ value: 12, isPositive: true }}
+        />
         
-        <div className="card bg-bg-surface">
-          <h3 className="text-lg font-medium mb-2">Check-ins Today</h3>
-          <p className="text-3xl font-bold text-primary">5</p>
-        </div>
+        <MetricCard 
+          title="Check-ins Today" 
+          value={5}
+        />
         
-        <div className="card bg-bg-surface">
-          <h3 className="text-lg font-medium mb-2">Check-outs Today</h3>
-          <p className="text-3xl font-bold text-primary">3</p>
-        </div>
+        <MetricCard 
+          title="Check-outs Today" 
+          value={3}
+        />
         
-        <div className="card bg-bg-surface">
-          <h3 className="text-lg font-medium mb-2">Occupancy Rate</h3>
-          <p className="text-3xl font-bold text-primary">72%</p>
-        </div>
+        <MetricCard 
+          title="Occupancy Rate" 
+          value="72%" 
+          trend={{ value: 5, isPositive: true }}
+        />
       </div>
 
       <div className="card bg-bg-surface">

@@ -1,8 +1,19 @@
 import { useState } from "react";
+import { CabinRow } from "../components/cabin/CabinRow";
+
+type Cabin = {
+  id: number;
+  name: string;
+  maxCapacity: number;
+  regularPrice: number;
+  discount: number;
+  description: string;
+  image: string;
+}
 
 export default function Cabins() {
   // Mock cabin data
-  const [cabins, setCabins] = useState([
+  const [cabins, setCabins] = useState<Cabin[]>([
     {
       id: 1,
       name: "Forest Retreat",
@@ -40,13 +51,16 @@ export default function Cabins() {
   };
 
   return (
-    <div>
-      <h1>Cabins</h1>
-      <p>Manage all hotel cabins here.</p>
+    <div className="space-y-6">
+      <div className="flex justify-between items-center">
+        <div>
+          <h1>Cabins</h1>
+          <p className="text-text-muted">Manage all hotel cabins here.</p>
+        </div>
+        <button className="btn-primary">+ Add New Cabin</button>
+      </div>
 
-      <button>Add New Cabin</button>
-
-      <div>
+      <div className="card bg-bg-surface overflow-hidden">
         <table>
           <thead>
             <tr>
@@ -60,23 +74,17 @@ export default function Cabins() {
           </thead>
           <tbody>
             {cabins.map(cabin => (
-              <tr key={cabin.id}>
-                <td>
-                  <img 
-                    src={cabin.image} 
-                    alt={cabin.name} 
-                    style={{ width: "64px", height: "48px", objectFit: "cover" }} 
-                  />
-                </td>
-                <td>{cabin.name}</td>
-                <td>{cabin.maxCapacity} persons</td>
-                <td>${cabin.regularPrice}</td>
-                <td>{cabin.discount > 0 ? `$${cabin.discount}` : "—"}</td>
-                <td>
-                  <button>Edit</button>
-                  <button onClick={() => handleDelete(cabin.id)}>Delete</button>
-                </td>
-              </tr>
+              <CabinRow 
+                key={cabin.id}
+                id={cabin.id}
+                name={cabin.name}
+                maxCapacity={cabin.maxCapacity}
+                regularPrice={cabin.regularPrice}
+                discount={cabin.discount}
+                description={cabin.description}
+                image={cabin.image}
+                onDelete={handleDelete}
+              />
             ))}
           </tbody>
         </table>
