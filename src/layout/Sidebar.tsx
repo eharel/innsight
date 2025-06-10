@@ -1,5 +1,10 @@
 import { NavLink } from "react-router-dom";
 import { useState, useEffect } from "react";
+import Logo from "../components/ui/Logo";
+// Import icons
+import { MdDashboard, MdHotel, MdPeople, MdSettings } from "react-icons/md";
+import { BsCalendarCheck } from "react-icons/bs";
+import { FiSun, FiMoon } from "react-icons/fi";
 
 export default function Sidebar() {
   // State to track dark mode
@@ -31,8 +36,7 @@ export default function Sidebar() {
   return (
     <aside className="sidebar">
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-primary">Innsight</h1>
-        <p className="text-text-muted text-sm">Hotel Management</p>
+        <Logo size="medium" />
       </div>
 
       <nav>
@@ -41,35 +45,50 @@ export default function Sidebar() {
             <NavLink to="/dashboard" className={({isActive}) => 
               isActive ? "nav-link active" : "nav-link"}
             >
-              Dashboard
+              <div className="flex items-center gap-2">
+                <MdDashboard size={18} />
+                <span>Dashboard</span>
+              </div>
             </NavLink>
           </li>
           <li>
             <NavLink to="/bookings" className={({isActive}) => 
               isActive ? "nav-link active" : "nav-link"}
             >
-              Bookings
+              <div className="flex items-center gap-2">
+                <BsCalendarCheck size={18} />
+                <span>Bookings</span>
+              </div>
             </NavLink>
           </li>
           <li>
             <NavLink to="/cabins" className={({isActive}) => 
               isActive ? "nav-link active" : "nav-link"}
             >
-              Cabins
+              <div className="flex items-center gap-2">
+                <MdHotel size={18} />
+                <span>Cabins</span>
+              </div>
             </NavLink>
           </li>
           <li>
             <NavLink to="/users" className={({isActive}) => 
               isActive ? "nav-link active" : "nav-link"}
             >
-              Users
+              <div className="flex items-center gap-2">
+                <MdPeople size={18} />
+                <span>Users</span>
+              </div>
             </NavLink>
           </li>
           <li>
             <NavLink to="/settings" className={({isActive}) => 
               isActive ? "nav-link active" : "nav-link"}
             >
-              Settings
+              <div className="flex items-center gap-2">
+                <MdSettings size={18} />
+                <span>Settings</span>
+              </div>
             </NavLink>
           </li>
         </ul>
@@ -81,25 +100,7 @@ export default function Sidebar() {
           className="w-full btn-secondary text-sm flex items-center justify-center gap-2"
         >
           <span>{darkMode ? 'Light Mode' : 'Dark Mode'}</span>
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather">
-            {darkMode ? (
-              // Sun icon for light mode switch
-              <>
-                <circle cx="12" cy="12" r="5"></circle>
-                <line x1="12" y1="1" x2="12" y2="3"></line>
-                <line x1="12" y1="21" x2="12" y2="23"></line>
-                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                <line x1="1" y1="12" x2="3" y2="12"></line>
-                <line x1="21" y1="12" x2="23" y2="12"></line>
-                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-              </>
-            ) : (
-              // Moon icon for dark mode switch
-              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-            )}
-          </svg>
+          {darkMode ? <FiSun size={16} /> : <FiMoon size={16} />}
         </button>
       </div>
     </aside>
