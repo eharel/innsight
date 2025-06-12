@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CabinRow } from "../components/cabin/CabinRow";
+import { getCabins } from "@/services/api/apiCabins";
 
 type Cabin = {
   id: number;
@@ -9,9 +10,15 @@ type Cabin = {
   discount: number;
   description: string;
   image: string;
-}
+};
 
 export default function Cabins() {
+  useEffect(() => {
+    getCabins().then((cabins) => {
+      console.log(cabins);
+    });
+  }, []);
+
   // Mock cabin data
   const [cabins, setCabins] = useState<Cabin[]>([
     {
@@ -21,7 +28,8 @@ export default function Cabins() {
       regularPrice: 250,
       discount: 0,
       description: "Cozy cabin for two with forest views.",
-      image: "https://images.unsplash.com/photo-1587061949409-02df41d5e562?ixlib=rb-4.0.3"
+      image:
+        "https://images.unsplash.com/photo-1587061949409-02df41d5e562?ixlib=rb-4.0.3",
     },
     {
       id: 2,
@@ -30,7 +38,8 @@ export default function Cabins() {
       regularPrice: 350,
       discount: 25,
       description: "Spacious cabin with stunning mountain views.",
-      image: "https://images.unsplash.com/photo-1586375300773-8384e3e4916f?ixlib=rb-4.0.3"
+      image:
+        "https://images.unsplash.com/photo-1586375300773-8384e3e4916f?ixlib=rb-4.0.3",
     },
     {
       id: 3,
@@ -39,14 +48,15 @@ export default function Cabins() {
       regularPrice: 500,
       discount: 50,
       description: "Large cabin by the lake, perfect for families.",
-      image: "https://images.unsplash.com/photo-1499696010180-025ef6e1a8f9?ixlib=rb-4.0.3"
+      image:
+        "https://images.unsplash.com/photo-1499696010180-025ef6e1a8f9?ixlib=rb-4.0.3",
     },
   ]);
 
   // Function to handle cabin deletion
   const handleDelete = (id: number) => {
     if (window.confirm("Are you sure you want to delete this cabin?")) {
-      setCabins(cabins.filter(cabin => cabin.id !== id));
+      setCabins(cabins.filter((cabin) => cabin.id !== id));
     }
   };
 
@@ -73,8 +83,8 @@ export default function Cabins() {
             </tr>
           </thead>
           <tbody>
-            {cabins.map(cabin => (
-              <CabinRow 
+            {cabins.map((cabin) => (
+              <CabinRow
                 key={cabin.id}
                 id={cabin.id}
                 name={cabin.name}

@@ -1,5 +1,9 @@
 {
   "compilerOptions": {
+    "baseUrl": ".", // 👈 Required for paths to work
+    "paths": {
+      "@/*": ["src/*"] // 👈 Alias '@/' maps to 'src/' directory
+    },
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
     "target": "ES2020",
     "useDefineForClassFields": true,
