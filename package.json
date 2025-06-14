@@ -8,11 +8,14 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "update-types": "npx supabase gen types --lang=typescript --project-id \"okckqyxcosgcaumsuxta\" > src/database.types.ts"
+    "update-types": "npx supabase gen types --lang=typescript --project-id \"okckqyxcosgcaumsuxta\" > src/types/database.types.ts"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.50.0",
     "@tailwindcss/vite": "^4.1.8",
+    "@tanstack/react-query": "^5.80.7",
+    "@tanstack/react-query-devtools": "^5.80.7",
+    "date-fns": "^4.1.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-icons": "^5.5.0",
