@@ -1,6 +1,4 @@
 import { CabinRow } from "./CabinRow";
-import { useState } from "react";
-import type { CabinData } from "@/types/db";
 import { useQuery } from "@tanstack/react-query";
 import { getCabins } from "@/services/api/apiCabins";
 import Spinner from "@/components/ui/Spinner";
@@ -14,8 +12,6 @@ export default function CabinsTable() {
     queryKey: ["cabins"],
     queryFn: getCabins,
   });
-
-  console.log(cabins);
 
   // Function to handle cabin deletion
   // const handleDelete = (id: number) => {

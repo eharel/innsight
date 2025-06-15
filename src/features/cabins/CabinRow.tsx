@@ -1,16 +1,37 @@
 import { useState } from "react";
 import type { CabinData } from "@/types/db";
 import { formatCurrency } from "@/utils/helpers";
+import { Button } from "@/components/ui";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { deleteCabin } from "@/services/api/apiCabins";
 
 type CabinProps = {
   cabin: CabinData;
 };
 
 export function CabinRow({ cabin }: CabinProps) {
+  const { id, name, capacity, price, discount_percent, photo_url } = cabin;
+
+  // TODO look over these states
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);
 
-  const { id, name, capacity, price, discount_percent, photo_url } = cabin;
+  const queryClient = useQueryClient();
+
+  const { isPending: isDeleting, mutate: deleteMutation } = useMutation({
+    mutationFn: deleteCabin,
+    onSuccess: () => {
+      console.log("Cabin deleted successfully");
+      // TODO: Add toast notification
+      queryClient.invalidateQueries({
+        queryKey: ["cabins"],
+      });
+    },
+    onError: (error) => {
+      console.error("Error deleting cabin:", error);
+      // TODO: Add toast notification
+    },
+  });
 
   const handleImageLoad = () => {
     setImageLoaded(true);
@@ -20,15 +41,11 @@ export function CabinRow({ cabin }: CabinProps) {
     setImageError(true);
   };
 
-  const onDelete = (id: number) => {
-    console.log(id);
-  };
-
   return (
     <tr className="border-t border-border">
       <td className="py-4">
         <div className="relative w-16 h-12 bg-bg-base rounded overflow-hidden">
-          {!imageLoaded && !imageError && (
+          {!imageLoaded && !imageError && photo_url && (
             <div className="absolute inset-0 flex items-center justify-center bg-bg-base">
               <svg
                 className="animate-spin text-primary h-4 w-4"
@@ -56,16 +73,20 @@ export function CabinRow({ cabin }: CabinProps) {
             <div className="absolute inset-0 flex items-center justify-center bg-bg-base text-text-muted">
               <span className="text-xs">No image</span>
             </div>
-          ) : (
+          ) : photo_url ? (
             <img
-              src={photo_url || ""}
-              alt={name}
+              src={photo_url}
+              alt={name || ""}
               className={`w-full h-full object-cover transition-opacity duration-300 ${
                 imageLoaded ? "opacity-100" : "opacity-0"
               }`}
               onLoad={handleImageLoad}
               onError={handleImageError}
             />
+          ) : (
+            <div className="flex items-center justify-center h-full bg-gray-100">
+              <span className="text-xs text-gray-500">No image</span>
+            </div>
           )}
         </div>
       </td>
@@ -76,13 +97,14 @@ export function CabinRow({ cabin }: CabinProps) {
         {discount_percent ? `$${discount_percent}` : "—"}
       </td>
       <td className="py-4 space-x-2">
-        <button className="text-primary hover:text-primary-hover">Edit</button>
-        <button
-          className="text-error hover:text-error/80"
-          onClick={() => onDelete(id)}
+        <Button variant="outline">Edit</Button>
+        <Button
+          variant="destructive"
+          onClick={() => deleteMutation(id)}
+          disabled={isDeleting}
         >
-          Delete
-        </button>
+          {isDeleting ? "Deleting..." : "Delete"}
+        </Button>
       </td>
     </tr>
   );
