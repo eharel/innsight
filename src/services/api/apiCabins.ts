@@ -1,4 +1,4 @@
-import supabase from "../supabase/supabase";
+import { supabase } from "../supabase/supabase";
 
 const TABLE_NAME = "cabins";
 const COLUMN_NAME = "id";

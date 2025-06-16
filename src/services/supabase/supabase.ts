@@ -1,17 +1,14 @@
+// src/services/supabase/supabase.ts
 import { createClient } from "@supabase/supabase-js";
 import type { Database } from "../../types/database.types";
 
-// Use Vite's environment variables
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseKey = import.meta.env.VITE_SUPABASE_KEY;
 
-// Check that the environment variables are set
 if (!supabaseUrl || !supabaseKey) {
-  console.error(
-    "Missing Supabase environment variables. Check .env.local file."
+  throw new Error(
+    "Missing Supabase public credentials. Check your .env files."
   );
 }
 
-const supabase = createClient<Database>(supabaseUrl, supabaseKey);
-
-export default supabase;
+export const supabase = createClient<Database>(supabaseUrl, supabaseKey);

@@ -31,6 +31,7 @@ export default function CabinsTable() {
   return (
     <div className="card bg-bg-surface overflow-hidden">
       <table>
+        <p>{cabins?.length}</p>
         <thead>
           <tr>
             <th>Photo</th>
