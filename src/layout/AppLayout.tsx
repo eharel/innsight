@@ -8,7 +8,9 @@ export default function AppLayout() {
       <Sidebar />
       <Header />
       <main className="content">
-        <Outlet />
+        <div className="content-container">
+          <Outlet />
+        </div>
       </main>
     </div>
   );

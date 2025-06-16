@@ -4,6 +4,7 @@ import { formatCurrency } from "@/utils/helpers";
 import { Button } from "@/components/ui";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteCabin } from "@/services/api/apiCabins";
+import { toast } from "react-hot-toast";
 
 type CabinProps = {
   cabin: CabinData;
@@ -22,14 +23,14 @@ export function CabinRow({ cabin }: CabinProps) {
     mutationFn: deleteCabin,
     onSuccess: () => {
       console.log("Cabin deleted successfully");
-      // TODO: Add toast notification
+      toast.success("Cabin deleted successfully");
       queryClient.invalidateQueries({
         queryKey: ["cabins"],
       });
     },
     onError: (error) => {
       console.error("Error deleting cabin:", error);
-      // TODO: Add toast notification
+      toast.error("Error deleting cabin");
     },
   });
 
