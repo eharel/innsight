@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Button, Card, Input, FormRow, Checkbox } from "../components/ui";
+import { Button, Card, Input, FormField, Checkbox } from "../components/ui";
 
 export default function AppSettings() {
   // Mock app settings with updater function
@@ -70,79 +70,79 @@ export default function AppSettings() {
         </div>
 
         <form className="space-y-6">
-          <FormRow label="Hotel Name" htmlFor="hotelName">
+          <FormField label="Hotel Name" htmlFor="hotelName">
             <Input
               id="hotelName"
               value={settings.hotelName}
               onChange={handleInputChange('hotelName')}
             />
-          </FormRow>
+          </FormField>
 
-          <FormRow label="Hotel Address" htmlFor="hotelAddress">
+          <FormField label="Hotel Address" htmlFor="hotelAddress">
             <Input
               id="hotelAddress"
               value={settings.hotelAddress}
               onChange={handleInputChange('hotelAddress')}
             />
-          </FormRow>
+          </FormField>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <FormRow label="Contact Email" htmlFor="contactEmail">
+            <FormField label="Contact Email" htmlFor="contactEmail">
               <Input 
                 id="contactEmail" 
                 type="email" 
                 value={settings.contactEmail}
                 onChange={handleInputChange('contactEmail')}
               />
-            </FormRow>
+            </FormField>
 
-            <FormRow label="Contact Phone" htmlFor="contactPhone">
+            <FormField label="Contact Phone" htmlFor="contactPhone">
               <Input 
                 id="contactPhone" 
                 type="tel" 
                 value={settings.contactPhone}
                 onChange={handleInputChange('contactPhone')}
               />
-            </FormRow>
+            </FormField>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <FormRow label="Check-in Time" htmlFor="checkInTime">
+            <FormField label="Check-in Time" htmlFor="checkInTime">
               <Input 
                 id="checkInTime" 
                 type="time" 
                 value={settings.checkInTime}
                 onChange={handleInputChange('checkInTime')}
               />
-            </FormRow>
+            </FormField>
 
-            <FormRow label="Check-out Time" htmlFor="checkOutTime">
+            <FormField label="Check-out Time" htmlFor="checkOutTime">
               <Input 
                 id="checkOutTime" 
                 type="time" 
                 value={settings.checkOutTime}
                 onChange={handleInputChange('checkOutTime')}
               />
-            </FormRow>
+            </FormField>
           </div>
 
-          <FormRow>
+          <FormField>
             <Checkbox
               id="breakfastIncluded"
               label="Breakfast Included by Default"
               checked={settings.breakfastIncluded}
               onChange={handleBreakfastChange}
             />
-          </FormRow>
+          </FormField>
 
-          <FormRow label="Currency Symbol" htmlFor="currencySymbol">
+          <FormField label="Currency Symbol" htmlFor="currencySymbol">
             <Input 
               id="currencySymbol" 
               className="max-w-xs"
               value={settings.currencySymbol}
               onChange={handleInputChange('currencySymbol')}
             />
-          </FormRow>
+          </FormField>
 
           <div className="pt-4 border-t border-border mt-8">
             <Button onClick={handleSave}>Save Settings</Button>

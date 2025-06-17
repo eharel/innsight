@@ -8,8 +8,9 @@ export default function AppLayout() {
       <Sidebar />
       <Header />
       <main className="content">
-        {/* Outlet renders the matched child route component */}
-        <Outlet />
+        <div className="content-container">
+          <Outlet />
+        </div>
       </main>
     </div>
   );
