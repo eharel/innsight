@@ -1,4 +1,5 @@
 import CabinsTable from "@/features/cabins/CabinsTable";
+import { Button } from "@/components/ui";
 
 export default function Cabins() {
   return (
@@ -10,7 +11,7 @@ export default function Cabins() {
         </div>
         {/* TODO: Add filter and sort */}
         <p>Filter / Sort</p>
-        <button className="btn-primary">+ Add New Cabin</button>
+        <Button>+ Add New Cabin</Button>
       </div>
       <CabinsTable />
     </div>

@@ -7,6 +7,7 @@
     "seed": "vite-node src/data/seeds/index.ts",
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "typecheck": "tsc --noEmit -p tsconfig.app.json",
     "lint": "eslint .",
     "preview": "vite preview",
     "update-types": "npx supabase gen types --lang=typescript --project-id \"okckqyxcosgcaumsuxta\" > src/types/database.types.ts"

@@ -89,7 +89,7 @@ interface TableRowProps extends ThHTMLAttributes<HTMLTableRowElement> {
 }
 
 function TableRow({ children, className = "", ...props }: TableRowProps) {
-  const { variant, hoverable, striped } = useContext(TableContext);
+  const { variant, hoverable } = useContext(TableContext);
 
   // Hoverable effect
   const hoverClasses = hoverable ? "hover:bg-bg-base/60" : "";

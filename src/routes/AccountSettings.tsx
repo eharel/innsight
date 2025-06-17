@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Button, Card, Input, FormRow, Badge } from "../components/ui";
+import { Button, Card, Input, FormField, Badge } from "../components/ui";
 import { FileUpload } from "../components/ui";
 
 export default function AccountSettings() {
@@ -97,29 +97,29 @@ export default function AccountSettings() {
       </div>
 
       <form className="space-y-6">
-        <FormRow label="Full Name" htmlFor="name">
+        <FormField label="Full Name" htmlFor="name">
           <Input
             id="name"
             value={userData.name}
             onChange={handleNameChange}
           />
-        </FormRow>
+        </FormField>
 
-        <FormRow label="Email Address" htmlFor="email">
+        <FormField label="Email Address" htmlFor="email">
           <Input
             id="email"
             type="email"
             value={userData.email}
             onChange={handleEmailChange}
           />
-        </FormRow>
+        </FormField>
 
-        <FormRow label="User Role">
+        <FormField label="User Role">
           <div className="flex items-center space-x-2">
             <Badge variant="primary">{userData.role}</Badge>
             <span className="text-sm text-text-muted">Roles can only be changed by system administrators</span>
           </div>
-        </FormRow>
+        </FormField>
 
         <div className="pt-4 border-t border-border mt-8">
           <Button onClick={handleSave}>Save Account Settings</Button>
@@ -133,32 +133,32 @@ export default function AccountSettings() {
         </Card.Header>
         
         <form className="space-y-6">
-          <FormRow label="Current Password" htmlFor="currentPassword">
+          <FormField label="Current Password" htmlFor="currentPassword">
             <Input 
               id="currentPassword" 
               type="password"
               value={passwordData.current}
               onChange={(e) => setPasswordData(prev => ({ ...prev, current: e.target.value }))}
             />
-          </FormRow>
+          </FormField>
 
-          <FormRow label="New Password" htmlFor="newPassword">
+          <FormField label="New Password" htmlFor="newPassword">
             <Input 
               id="newPassword" 
               type="password"
               value={passwordData.new}
               onChange={(e) => setPasswordData(prev => ({ ...prev, new: e.target.value }))}
             />
-          </FormRow>
+          </FormField>
 
-          <FormRow label="Confirm New Password" htmlFor="confirmPassword">
+          <FormField label="Confirm New Password" htmlFor="confirmPassword">
             <Input 
               id="confirmPassword" 
               type="password"
               value={passwordData.confirm}
               onChange={(e) => setPasswordData(prev => ({ ...prev, confirm: e.target.value }))}
             />
-          </FormRow>
+          </FormField>
 
           <div className="pt-4">
             <Button onClick={handlePasswordChange}>Update Password</Button>

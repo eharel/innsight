@@ -44,3 +44,5 @@ export function FormGroup({
     </fieldset>
   );
 }
+
+export default FormGroup;
