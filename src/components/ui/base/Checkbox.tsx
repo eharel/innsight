@@ -1,17 +1,18 @@
-import type { InputHTMLAttributes } from 'react';
+import type { InputHTMLAttributes } from "react";
 
-export interface CheckboxProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'type'> {
+export interface CheckboxProps
+  extends Omit<InputHTMLAttributes<HTMLInputElement>, "type"> {
   label?: string;
   description?: string;
   error?: string;
   checked?: boolean;
 }
 
-export function Checkbox({
+export default function Checkbox({
   label,
   description,
   error,
-  className = '',
+  className = "",
   id,
   checked,
   disabled,
@@ -29,8 +30,8 @@ export function Checkbox({
           disabled={disabled}
           onChange={onChange}
           className={`h-4 w-4 rounded border-border text-primary focus:ring-primary focus:ring-offset-bg-surface
-            ${disabled ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer'}
-            ${error ? 'border-error' : 'border-border'}`}
+            ${disabled ? "opacity-60 cursor-not-allowed" : "cursor-pointer"}
+            ${error ? "border-error" : "border-border"}`}
           {...props}
         />
       </div>
@@ -40,8 +41,8 @@ export function Checkbox({
             <label
               htmlFor={id}
               className={`font-medium ${
-                disabled ? 'text-text-muted' : 'text-text-base'
-              } ${error ? 'text-error' : ''}`}
+                disabled ? "text-text-muted" : "text-text-base"
+              } ${error ? "text-error" : ""}`}
             >
               {label}
             </label>

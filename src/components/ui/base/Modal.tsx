@@ -12,7 +12,7 @@ type ModalProps = {
   showCloseButton?: boolean;
 };
 
-export function Modal({
+export default function Modal({
   isOpen,
   onClose,
   title,

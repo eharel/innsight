@@ -1,5 +1,5 @@
-import type { ReactNode } from 'react';
-import { Button } from './Button';
+import type { ReactNode } from "react";
+import Button from "./Button";
 
 type PaginationProps = {
   currentPage: number;
@@ -10,33 +10,33 @@ type PaginationProps = {
   siblingCount?: number;
 };
 
-export function Pagination({
+export default function Pagination({
   currentPage,
   totalPages,
   onPageChange,
-  className = '',
+  className = "",
   showPageNumbers = true,
   siblingCount = 1,
 }: PaginationProps) {
   // Don't render pagination if there's only one page
   if (totalPages <= 1) return null;
-  
+
   // Generate page numbers to display based on current page and sibling count
   const getPageNumbers = () => {
-    const pages: (number | 'ellipsis')[] = [];
-    
+    const pages: (number | "ellipsis")[] = [];
+
     // Always include first page
     pages.push(1);
-    
+
     // Calculate range for pages around current page
     const leftSibling = Math.max(2, currentPage - siblingCount);
     const rightSibling = Math.min(totalPages - 1, currentPage + siblingCount);
-    
+
     // Add ellipsis if there's a gap between first page and left siblings
     if (leftSibling > 2) {
-      pages.push('ellipsis');
+      pages.push("ellipsis");
     }
-    
+
     // Add all pages from leftSibling to rightSibling
     for (let i = leftSibling; i <= rightSibling; i++) {
       // Skip first and last page as they're always included
@@ -44,47 +44,50 @@ export function Pagination({
         pages.push(i);
       }
     }
-    
+
     // Add ellipsis if there's a gap between right siblings and last page
     if (rightSibling < totalPages - 1) {
-      pages.push('ellipsis');
+      pages.push("ellipsis");
     }
-    
+
     // Always include last page if we have more than one page
     if (totalPages > 1) {
       pages.push(totalPages);
     }
-    
+
     return pages;
   };
-  
+
   const pageNumbers = getPageNumbers();
-  
-  const renderPageButton = (page: number | 'ellipsis', index: number): ReactNode => {
-    if (page === 'ellipsis') {
+
+  const renderPageButton = (
+    page: number | "ellipsis",
+    index: number
+  ): ReactNode => {
+    if (page === "ellipsis") {
       return (
         <span key={`ellipsis-${index}`} className="px-2 py-1 text-text-muted">
           ...
         </span>
       );
     }
-    
+
     const isActive = page === currentPage;
-    
+
     return (
       <Button
         key={page}
-        variant={isActive ? 'primary' : 'outline'}
+        variant={isActive ? "primary" : "outline"}
         size="sm"
         onClick={() => onPageChange(page)}
         className="min-w-[2.5rem]"
-        aria-current={isActive ? 'page' : undefined}
+        aria-current={isActive ? "page" : undefined}
       >
         {page}
       </Button>
     );
   };
-  
+
   return (
     <div className={`flex items-center justify-center gap-1 ${className}`}>
       {/* Previous Page Button */}
@@ -108,10 +111,10 @@ export function Pagination({
           />
         </svg>
       </Button>
-      
+
       {/* Page Numbers */}
       {showPageNumbers && pageNumbers.map(renderPageButton)}
-      
+
       {/* Next Page Button */}
       <Button
         variant="outline"

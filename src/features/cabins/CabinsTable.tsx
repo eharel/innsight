@@ -1,7 +1,7 @@
 import { CabinRow } from "./CabinRow";
 import { useQuery } from "@tanstack/react-query";
 import { getCabins } from "@/services/api/apiCabins";
-import Spinner from "@/components/ui/Spinner";
+import Spinner from "@/components/ui/base/Spinner";
 
 export default function CabinsTable() {
   const {
