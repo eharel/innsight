@@ -1,4 +1,4 @@
-export * from "./Form";
-export * from "./FormField";
-export * from "./FormGroup";
-export * from "./Label";
+export { default as Form } from "./Form";
+export { default as FormField } from "./FormField";
+export { default as FormGroup } from "./FormGroup";
+export { default as Label } from "./Label";

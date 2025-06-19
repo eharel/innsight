@@ -1,4 +1,4 @@
-import { forwardRef, type InputHTMLAttributes } from 'react';
+import { forwardRef, type InputHTMLAttributes } from "react";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   /**
@@ -15,12 +15,11 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   fullWidth?: boolean;
 }
 
-export const Input = forwardRef<HTMLInputElement, InputProps>(
-  function Input(
-    { 
-      leftIcon, 
-      rightIcon, 
-      className = '', 
+export default function Input(
+  { 
+    leftIcon, 
+    rightIcon, 
+    className = '', 
       fullWidth = true,
       ...props 
     }, 
@@ -58,4 +57,3 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       </div>
     );
   }
-);

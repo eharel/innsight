@@ -1,7 +1,11 @@
 import CabinsTable from "@/features/cabins/CabinsTable";
 import { Button } from "@/components/ui";
+import { useState } from "react";
+import CreateCabinForm from "@/features/cabins/CreateCabinForm";
 
 export default function Cabins() {
+  const [showForm, setShowForm] = useState(false);
+
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
@@ -11,8 +15,11 @@ export default function Cabins() {
         </div>
         {/* TODO: Add filter and sort */}
         <p>Filter / Sort</p>
-        <Button>+ Add New Cabin</Button>
+        <Button onClick={() => setShowForm(!showForm)}>
+          {showForm ? "Close" : "+ Add New Cabin"}
+        </Button>
       </div>
+      {showForm && <CreateCabinForm />}
       <CabinsTable />
     </div>
   );

@@ -28,7 +28,7 @@ interface TableProps extends TableHTMLAttributes<HTMLTableElement> {
   fullWidth?: boolean;
 }
 
-function Table({
+export default function Table({
   children,
   variant = "default",
   hoverable = false,

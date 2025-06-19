@@ -28,7 +28,7 @@ type PolymorphicProps<E extends ElementType> = ButtonBaseProps & {
 
 // Helps with typing the polymorphic component
 
-export function Button<E extends ElementType = "button">({
+export default function Button<E extends ElementType = "button">({
   children,
   variant = "primary",
   size = "md",
