@@ -1,3 +1,4 @@
+import { BaseCabin } from "@/features/cabins";
 import { supabase } from "../supabase/supabase";
 
 const TABLE_NAME = "cabins";
@@ -9,6 +10,20 @@ export async function getCabins() {
   if (error) {
     console.error("Error fetching cabins:", error);
     throw new Error("Failed to fetch cabins");
+  }
+
+  return data;
+}
+
+export async function createCabin(cabin: BaseCabin) {
+  const { data, error } = await supabase
+    .from("cabins")
+    .insert([cabin])
+    .select();
+
+  if (error) {
+    console.error("Error creating cabin:", error);
+    throw new Error("Failed to create cabin");
   }
 
   return data;
