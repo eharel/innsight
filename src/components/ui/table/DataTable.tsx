@@ -8,6 +8,7 @@ export type DataTableProps<T extends { id: string | number }> = {
   >;
   labelMap?: Partial<Record<keyof T & string, string>>;
   displayId?: boolean;
+  hideRowIndex?: boolean;
 };
 
 /**
@@ -32,6 +33,8 @@ export type DataTableProps<T extends { id: string | number }> = {
  *
  * @prop displayId - Optional. Whether to display the `id` column. Default is false.
  *
+ * @prop hideRowIndex - Optional. Whether to hide the row index column. Default is false (shows row index by default).
+ *
  * 🧠 Notes:
  * - To add virtual columns (e.g. an "actions" column), include the key in the row type
  *   with a value of `undefined`, and define its render logic in `columnRenderers`.
@@ -54,6 +57,7 @@ export default function DataTable<T extends { id: string | number }>({
   columnRenderers,
   labelMap,
   displayId = false,
+  hideRowIndex = false,
 }: DataTableProps<T>) {
   if (data.length === 0) return <p>No data to display.</p>;
 
@@ -73,6 +77,7 @@ export default function DataTable<T extends { id: string | number }>({
     <table>
       <thead>
         <tr>
+          {!hideRowIndex && <th>#</th>}
           {combinedHeaders.map((header) => (
             <th key={header}>
               {labelMap?.[header] ?? formatHeaderLabel(header)}
@@ -81,8 +86,9 @@ export default function DataTable<T extends { id: string | number }>({
         </tr>
       </thead>
       <tbody>
-        {data.map((item) => (
+        {data.map((item, index) => (
           <tr key={item.id}>
+            {!hideRowIndex && <td>{index + 1}</td>}
             {combinedHeaders.map((header) => (
               <td key={header}>
                 {columnRenderers?.[header]

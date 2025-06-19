@@ -7,8 +7,29 @@ import { Button } from "@/components/ui";
 import { CabinRow } from "./types";
 import { DataTableProps } from "@/components/ui/table";
 import { Image } from "@/components/ui/base";
+import { useMutation } from "@tanstack/react-query";
+import { deleteCabin } from "@/services/api/apiCabins";
+import { toast } from "react-hot-toast";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function CabinsTable() {
+  const queryClient = useQueryClient();
+
+  const { isPending: isDeleting, mutate: deleteMutation } = useMutation({
+    mutationFn: deleteCabin,
+    onSuccess: () => {
+      console.log("Cabin deleted successfully");
+      toast.success("Cabin deleted successfully");
+      queryClient.invalidateQueries({
+        queryKey: ["cabins"],
+      });
+    },
+    onError: (error) => {
+      console.error("Error deleting cabin:", error);
+      toast.error("Error deleting cabin");
+    },
+  });
+
   const {
     isPending,
     data: cabins,
@@ -25,10 +46,6 @@ export default function CabinsTable() {
   if (error) {
     return <div>Error fetching cabins</div>;
   }
-
-  const handleDelete = (id: number) => {
-    console.log("Delete cabin with id: ", id);
-  };
 
   const handleEdit = (id: number) => {
     console.log("Edit cabin with id: ", id);
@@ -57,12 +74,25 @@ export default function CabinsTable() {
         <Button variant="outline" onClick={() => handleEdit(row.id)}>
           Edit
         </Button>
-        <Button variant="destructive" onClick={() => handleDelete(row.id)}>
-          Delete
+        <Button
+          variant="destructive"
+          onClick={() => deleteMutation(row.id)}
+          disabled={isDeleting}
+        >
+          {isDeleting ? "Deleting..." : "Delete"}
         </Button>
       </div>
     ),
   };
 
-  return <DataTable data={cabinsData} columnRenderers={columnRenderers} />;
+  return (
+    <div className="space-y-4">
+      <p className="text-sm text-muted-foreground">
+        Showing {cabinsData.length}{" "}
+        {cabinsData.length === 1 ? "cabin" : "cabins"}
+      </p>
+
+      <DataTable data={cabinsData} columnRenderers={columnRenderers} />
+    </div>
+  );
 }

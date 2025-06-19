@@ -28,15 +28,16 @@ export default function Button({
   size = "md",
   isLoading = false,
   className,
+  disabled,
   ...props
 }: ButtonProps) {
-  const baseClasses = `btn btn-${variant}`;
+  const baseClasses = `btn btn-${variant} ${disabled ? "btn-disabled" : ""}`;
 
   return (
     <button
       {...props}
       className={`${baseClasses} ${sizeClasses[size]} ${className}`}
-      disabled={isLoading || props.disabled}
+      disabled={isLoading || disabled}
     >
       {isLoading && <LoadingSpinner className="mr-2" />}
       {children}
