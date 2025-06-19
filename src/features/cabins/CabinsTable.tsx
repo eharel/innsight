@@ -17,13 +17,6 @@ export default function CabinsTable() {
     queryFn: getCabins,
   });
 
-  // Function to handle cabin deletion
-  // const handleDelete = (id: number) => {
-  //   if (window.confirm("Are you sure you want to delete this cabin?")) {
-  //     setCabins(cabins.filter((cabin) => cabin.id !== id));
-  //   }
-  // };
-
   if (isPending) {
     return <Spinner />;
   }
@@ -71,31 +64,4 @@ export default function CabinsTable() {
   };
 
   return <DataTable data={cabinsData} columnRenderers={columnRenderers} />;
-
-  // return (
-  //   <div className="card bg-bg-surface overflow-hidden">
-  //     <table>
-  //       <p>{cabins?.length}</p>
-  //       <thead>
-  //         <tr>
-  //           <th>Photo</th>
-  //           <th>Name</th>
-  //           <th>Capacity</th>
-  //           <th>Price</th>
-  //           <th>Discount</th>
-  //           <th>Actions</th>
-  //         </tr>
-  //       </thead>
-  //       <tbody>
-  //         {cabins?.map((cabin) => (
-  //           <CabinRow
-  //             key={cabin.id}
-  //             cabin={cabin}
-  //             // onDelete={handleDelete}
-  //           />
-  //         ))}
-  //       </tbody>
-  //     </table>
-  //   </div>
-  // );
 }
