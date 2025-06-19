@@ -9,7 +9,7 @@ export { default as Input } from "./Input";
 export { default as Modal } from "./Modal";
 export { default as Pagination } from "./Pagination";
 export { default as Select } from "./Select";
-export { default as Table } from "../table/Table";
+export { default as Table } from "../table/DataTable";
 export { default as Logo } from "./Logo";
 export { default as LoadingSpinner } from "./LoadingSpinner";
 
