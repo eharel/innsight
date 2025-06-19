@@ -1,29 +1,45 @@
-import type { ReactNode } from "react";
+import { ButtonHTMLAttributes } from "react";
+import LoadingSpinner from "./LoadingSpinner";
 
-interface ButtonProps {
-  children: ReactNode;
-  variant?: "primary" | "secondary" | "outline" | "destructive";
-  size?: "sm" | "md" | "lg";
-  icon?: ReactNode;
-  iconPosition?: "left" | "right";
-  fullWidth?: boolean;
+export type ButtonVariant =
+  | "primary"
+  | "secondary"
+  | "outline"
+  | "destructive"
+  | "link";
+export type ButtonSize = "sm" | "md" | "lg";
+
+const sizeClasses: Record<ButtonSize, string> = {
+  sm: "text-sm py-1.5 px-3",
+  md: "text-base py-2 px-4",
+  lg: "text-lg py-3 px-5",
+};
+
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  variant?: ButtonVariant;
+  size?: ButtonSize;
   isLoading?: boolean;
   className?: string;
-  disabled?: boolean;
-  onClick?: () => void;
 }
 
 export default function Button({
   children,
-  variant,
-  size,
-  icon,
-  iconPosition,
-  fullWidth,
-  isLoading,
+  variant = "primary",
+  size = "md",
+  isLoading = false,
   className,
-  disabled,
-  onClick,
+  ...props
 }: ButtonProps) {
-  return <button onClick={onClick}>{children}</button>;
+  const baseClasses = `btn btn-${variant}`;
+
+  return (
+    <button
+      {...props}
+      className={`${baseClasses} ${sizeClasses[size]} ${className}`}
+      disabled={isLoading || props.disabled}
+    >
+      {isLoading && <LoadingSpinner className="mr-2" />}
+      {children}
+    </button>
+  );
 }

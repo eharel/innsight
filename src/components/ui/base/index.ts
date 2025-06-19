@@ -11,3 +11,6 @@ export { default as Pagination } from "./Pagination";
 export { default as Select } from "./Select";
 export { default as Table } from "../table/Table";
 export { default as Logo } from "./Logo";
+export { default as LoadingSpinner } from "./LoadingSpinner";
+
+// export { ButtonVariant, ButtonSize } from "./Button";
