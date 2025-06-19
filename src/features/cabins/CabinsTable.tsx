@@ -55,20 +55,26 @@ export default function CabinsTable() {
     cabins?.map(
       (cabin): CabinRow => ({
         id: cabin.id,
-        image: cabin.photo_url,
+        photo_url: cabin.photo_url,
         name: cabin.name,
         capacity: cabin.capacity,
         price: cabin.price,
         discount_percent: cabin.discount_percent,
+        description: cabin.description,
       })
     ) || [];
 
   const columnRenderers: DataTableProps<CabinRow>["columnRenderers"] = {
-    image: (value: string) => (
+    photo_url: (value: string) => (
       <Image src={value} alt="Cabin" className="w-16 h-12" enablePreview />
     ),
     price: (value: number) => formatCurrency(value),
     discount_percent: (value: number) => `${value}%`,
+    description: (value: string) => (
+      <span className="line-clamp-2 max-w-[200px] cursor-help" title={value}>
+        {value}
+      </span>
+    ),
     actions: (_, row) => (
       <div className="flex gap-2">
         <Button variant="outline" onClick={() => handleEdit(row.id)}>
@@ -85,6 +91,11 @@ export default function CabinsTable() {
     ),
   };
 
+  const labelMap: DataTableProps<CabinRow>["labelMap"] = {
+    photo_url: "Photo",
+    discount_percent: "Discount %",
+  };
+
   return (
     <div className="space-y-4">
       <p className="text-sm text-muted-foreground">
@@ -92,7 +103,11 @@ export default function CabinsTable() {
         {cabinsData.length === 1 ? "cabin" : "cabins"}
       </p>
 
-      <DataTable data={cabinsData} columnRenderers={columnRenderers} />
+      <DataTable
+        data={cabinsData}
+        columnRenderers={columnRenderers}
+        labelMap={labelMap}
+      />
     </div>
   );
 }

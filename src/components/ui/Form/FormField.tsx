@@ -11,6 +11,29 @@ interface FormFieldProps {
   hint?: string;
 }
 
+/**
+ * FormField manages the relationship between a form label and its input element.
+ * 
+ * The component automatically handles the ID linking between the label and its child input:
+ * 
+ * 1. If you provide an explicit `htmlFor` prop, that ID will be used for both the label and injected into the child component
+ * 2. If you don't provide `htmlFor` but the child already has an `id` prop, that existing ID will be used
+ * 3. If neither exists, FormField will generate a unique ID automatically and inject it into both
+ * 
+ * This means you don't need to manually specify IDs in most cases - FormField handles
+ * the accessibility connection between label and input automatically.
+ * 
+ * @example
+ * // No need to specify IDs - they're handled automatically:
+ * <FormField label="Email address">
+ *   <Input type="email" />
+ * </FormField>
+ * 
+ * // You can still provide explicit IDs if needed:
+ * <FormField label="Password" htmlFor="login-password">
+ *   <Input type="password" />
+ * </FormField>
+ */
 export default function FormField({
   label,
   htmlFor,

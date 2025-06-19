@@ -6,38 +6,38 @@ import type {
 } from "@/types/database.types";
 
 // Cabin types
-export type CabinData = Tables<"cabins">;
-export type CabinInsertData = TablesInsert<"cabins">;
-export type CabinUpdateData = TablesUpdate<"cabins">;
+export type CabinDB = Tables<"cabins">;
+export type CabinInsertDB = TablesInsert<"cabins">;
+export type CabinUpdateDB = TablesUpdate<"cabins">;
 
 // Booking types
-export type BookingData = Tables<"bookings">;
-export type BookingInsertData = TablesInsert<"bookings">;
-export type BookingUpdateData = TablesUpdate<"bookings">;
+export type BookingDB = Tables<"bookings">;
+export type BookingInsertDB = TablesInsert<"bookings">;
+export type BookingUpdateDB = TablesUpdate<"bookings">;
 
 // Guest types
-export type GuestData = Tables<"guests">;
-export type GuestInsertData = TablesInsert<"guests">;
-export type GuestUpdateData = TablesUpdate<"guests">;
+export type GuestDB = Tables<"guests">;
+export type GuestInsertDB = TablesInsert<"guests">;
+export type GuestUpdateDB = TablesUpdate<"guests">;
 
 // Settings types
-export type SettingData = Tables<"settings">;
-export type SettingInsertData = TablesInsert<"settings">;
-export type SettingUpdateData = TablesUpdate<"settings">;
+export type SettingDB = Tables<"settings">;
+export type SettingInsertDB = TablesInsert<"settings">;
+export type SettingUpdateDB = TablesUpdate<"settings">;
 
 // Booking Guest relationship types
-export type BookingGuestData = Tables<"booking_guests">;
-export type BookingGuestInsertData = TablesInsert<"booking_guests">;
-export type BookingGuestUpdateData = TablesUpdate<"booking_guests">;
+export type BookingGuestDB = Tables<"booking_guests">;
+export type BookingGuestInsertDB = TablesInsert<"booking_guests">;
+export type BookingGuestUpdateDB = TablesUpdate<"booking_guests">;
 
 // Enum types
-export type BookingStatusData = Enums<"booking_status">;
+export type BookingStatusDB = Enums<"booking_status">;
 
 // Custom types for your application
-export type BookingWithGuestsData = BookingData & {
-  primary_guest?: GuestData;
-  guests?: GuestData[];
-  cabin?: CabinData;
+export type BookingWithGuestsDB = BookingDB & {
+  primary_guest?: GuestDB;
+  guests?: GuestDB[];
+  cabin?: CabinDB;
 };
 
 // Helper types
