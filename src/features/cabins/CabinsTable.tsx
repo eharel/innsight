@@ -6,6 +6,7 @@ import { formatCurrency } from "@/utils/helpers";
 import { Button } from "@/components/ui";
 import { CabinRow } from "./types";
 import { DataTableProps } from "@/components/ui/table";
+import { Image } from "@/components/ui/base";
 
 export default function CabinsTable() {
   const {
@@ -47,7 +48,7 @@ export default function CabinsTable() {
 
   const columnRenderers: DataTableProps<CabinRow>["columnRenderers"] = {
     image: (value: string) => (
-      <img src={value} alt="Cabin" className="w-16 h-12" />
+      <Image src={value} alt="Cabin" className="w-16 h-12" enablePreview />
     ),
     price: (value: number) => formatCurrency(value),
     discount_percent: (value: number) => `${value}%`,
