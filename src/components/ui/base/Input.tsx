@@ -43,7 +43,14 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         <input
           {...props}
           ref={ref}
-          className={`${widthClasses} ${iconPaddingClasses} ${inputClassName}`}
+          className={`
+    ${widthClasses}   
+    ${iconPaddingClasses} 
+    ${inputClassName} 
+    border border-[--color-border] rounded-md 
+    py-2 px-3 
+    focus:outline-none focus:ring-2 focus:ring-[--color-primary]/20
+  `}
         />
         {rightIcon && (
           <div aria-hidden="true" className={`${iconBaseClass} right-2`}>

@@ -9,7 +9,7 @@ const Form = forwardRef<HTMLFormElement, FormProps>(function Form(
   ref
 ) {
   return (
-    <form {...props} className={`${className}`} ref={ref}>
+    <form {...props} className={`space-y-0 ${className}`} ref={ref}>
       {children}
     </form>
   );

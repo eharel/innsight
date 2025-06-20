@@ -19,7 +19,11 @@ export default function Cabins() {
           {showForm ? "Close" : "+ Add New Cabin"}
         </Button>
       </div>
-      {showForm && <CreateCabinForm onClose={() => setShowForm(false)} />}
+      {showForm && (
+        <div className="flex justify-center">
+          <CreateCabinForm onClose={() => setShowForm(false)} />
+        </div>
+      )}
       {/* TODO: Add filter and sort */}
       <CabinsTable />
     </div>
