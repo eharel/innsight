@@ -1,125 +1,50 @@
 import { NavLink } from "react-router-dom";
-import { useState, useEffect } from "react";
 import { Logo } from "@/components/ui";
-// Import icons
 import { MdDashboard, MdHotel, MdPeople, MdSettings } from "react-icons/md";
 import { BsCalendarCheck } from "react-icons/bs";
-import { FiSun, FiMoon } from "react-icons/fi";
+import ThemeSelector from "@/components/ui/base/ThemeSelector";
 
 export default function Sidebar() {
-  // State to track dark mode
-  const [darkMode, setDarkMode] = useState(() => {
-    // Check if user has previously set a preference
-    const savedMode = localStorage.getItem("darkMode");
-    // Check if the system prefers dark mode
-    const systemPrefersDark = window.matchMedia(
-      "(prefers-color-scheme: dark)"
-    ).matches;
-    // Return true if explicitly saved as 'true' or if system prefers dark and no preference is saved
-    return savedMode === "true" || (systemPrefersDark && savedMode === null);
-  });
-
-  // Apply the theme class to the document root element
-  useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add("dark");
-      localStorage.setItem("darkMode", "true");
-    } else {
-      document.documentElement.classList.remove("dark");
-      localStorage.setItem("darkMode", "false");
-    }
-  }, [darkMode]);
-
-  // Toggle dark mode
-  const toggleDarkMode = () => {
-    setDarkMode((prevMode) => !prevMode);
-  };
+  const navItems = [
+    { to: "/dashboard", label: "Dashboard", icon: <MdDashboard size={18} /> },
+    { to: "/bookings", label: "Bookings", icon: <BsCalendarCheck size={18} /> },
+    { to: "/cabins", label: "Cabins", icon: <MdHotel size={18} /> },
+    { to: "/users", label: "Users", icon: <MdPeople size={18} /> },
+    { to: "/settings", label: "Settings", icon: <MdSettings size={18} /> },
+  ];
 
   return (
-    <aside className="sidebar">
-      <div className="mb-8">
+    <aside className="flex flex-col h-full p-4 gap-6">
+      {/* Logo */}
+      <div className="flex items-center justify-center">
         <Logo size="medium" />
       </div>
 
-      <nav>
-        <ul className="space-y-1">
-          <li>
-            <NavLink
-              to="/dashboard"
-              className={({ isActive }) =>
-                isActive ? "nav-link active" : "nav-link"
-              }
-            >
-              <div className="flex items-center gap-2">
-                <MdDashboard size={18} />
-                <span>Dashboard</span>
-              </div>
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/bookings"
-              className={({ isActive }) =>
-                isActive ? "nav-link active" : "nav-link"
-              }
-            >
-              <div className="flex items-center gap-2">
-                <BsCalendarCheck size={18} />
-                <span>Bookings</span>
-              </div>
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/cabins"
-              className={({ isActive }) =>
-                isActive ? "nav-link active" : "nav-link"
-              }
-            >
-              <div className="flex items-center gap-2">
-                <MdHotel size={18} />
-                <span>Cabins</span>
-              </div>
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/users"
-              className={({ isActive }) =>
-                isActive ? "nav-link active" : "nav-link"
-              }
-            >
-              <div className="flex items-center gap-2">
-                <MdPeople size={18} />
-                <span>Users</span>
-              </div>
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/settings"
-              className={({ isActive }) =>
-                isActive ? "nav-link active" : "nav-link"
-              }
-            >
-              <div className="flex items-center gap-2">
-                <MdSettings size={18} />
-                <span>Settings</span>
-              </div>
-            </NavLink>
-          </li>
+      {/* Navigation */}
+      <nav className="flex-1">
+        <ul className="space-y-2">
+          {navItems.map(({ to, label, icon }) => (
+            <li key={to}>
+              <NavLink
+                to={to}
+                className={({ isActive }) =>
+                  `flex items-center gap-3 px-4 py-2 rounded-lg text-sm font-medium transition-colors
+                   ${
+                     isActive
+                       ? "bg-primary text-white"
+                       : "text-text-muted hover:bg-bg-base hover:text-text-main"
+                   }`
+                }
+              >
+                {icon}
+                <span>{label}</span>
+              </NavLink>
+            </li>
+          ))}
         </ul>
       </nav>
 
-      <div className="mt-auto pt-8">
-        <button
-          onClick={toggleDarkMode}
-          className="w-full btn-secondary text-sm flex items-center justify-center gap-2"
-        >
-          <span>{darkMode ? "Light Mode" : "Dark Mode"}</span>
-          {darkMode ? <FiSun size={16} /> : <FiMoon size={16} />}
-        </button>
-      </div>
+      <ThemeSelector />
     </aside>
   );
 }

@@ -38,48 +38,48 @@ export default function CreateCabinForm({ onClose }: { onClose: () => void }) {
     createMutation(data);
   };
 
-  const handleCancel = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    onClose();
-  };
-
   // TODO: Add form validation. If required fields are missing, show an error message
   return (
-    <Form onSubmit={handleSubmit(onSubmit)}>
-      <FormField
-        label="Cabin name"
-        htmlFor="name"
-        required
-        error={errors.name?.message}
-      >
-        <Input type="text" id="name" {...register("name")} />
-      </FormField>
-      <FormField label="Cabin description" htmlFor="description">
-        <Input type="text" id="description" {...register("description")} />
-      </FormField>
-      <FormField label="Cabin price" htmlFor="price" required>
-        <Input type="number" id="price" min={0} {...register("price")} />
-      </FormField>
-      <FormField label="Cabin capacity" htmlFor="capacity" required>
-        <Input
-          type="number"
-          id="capacity"
-          min={1}
-          defaultValue={1}
-          {...register("capacity")}
-        />
-      </FormField>
-      <FormField label="Cabin image" htmlFor="photo_url">
-        <Input type="file" id="photo_url" {...register("photo_url")} />
-      </FormField>
-      <div className="flex justify-end gap-2">
-        <Button variant="outline" type="reset" disabled={isCreating}>
-          Reset
-        </Button>
-        <Button type="submit" disabled={isCreating}>
-          Create Cabin
-        </Button>
-      </div>
-    </Form>
+    <div className="bg-white rounded-lg border border-[--color-border] p-6 shadow-sm transition-shadow hover:shadow-md max-w-xl mx-auto">
+      <Form onSubmit={handleSubmit(onSubmit)}>
+        <FormField
+          label="Cabin name"
+          htmlFor="name"
+          required
+          error={errors.name?.message}
+        >
+          <Input type="text" id="name" {...register("name")} />
+        </FormField>
+        <FormField label="Cabin description" htmlFor="description">
+          <Input type="text" id="description" {...register("description")} />
+        </FormField>
+        <FormField label="Cabin price" htmlFor="price" required>
+          <Input type="number" id="price" min={0} {...register("price")} />
+        </FormField>
+        <FormField label="Cabin capacity" htmlFor="capacity" required>
+          <Input
+            type="number"
+            id="capacity"
+            min={1}
+            defaultValue={1}
+            {...register("capacity")}
+          />
+        </FormField>
+        <FormField label="Cabin image" htmlFor="photo_url">
+          <Input type="file" id="photo_url" {...register("photo_url")} />
+        </FormField>
+        <div className="flex justify-end gap-2 mt-6">
+          <Button variant="outline" type="reset" disabled={isCreating}>
+            Reset
+          </Button>
+          <Button type="submit" variant="primary" disabled={isCreating}>
+            Create Cabin
+          </Button>
+          <Button variant="destructive">Test 1</Button>
+          <Button variant="text">Test 2</Button>
+          <Button variant="link">Test 3</Button>
+        </div>
+      </Form>
+    </div>
   );
 }

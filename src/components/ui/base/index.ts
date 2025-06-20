@@ -13,5 +13,6 @@ export { default as Table } from "../table/DataTable";
 export { default as Logo } from "./Logo";
 export { default as LoadingSpinner } from "./LoadingSpinner";
 export { default as Image } from "./Image";
+export { default as ThemeSelector } from "./ThemeSelector";
 
 // export { ButtonVariant, ButtonSize } from "./Button";
