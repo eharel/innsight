@@ -5,6 +5,7 @@ export type BaseCabin = {
   capacity: number;
   price: number;
   discount_percent: number;
+  discount_amount: number;
 };
 
 export type CabinRow = BaseCabin & {

@@ -9,7 +9,7 @@ import { DataTableProps } from "@/components/ui/table";
 import { Image } from "@/components/ui/base";
 import { useMutation } from "@tanstack/react-query";
 import { deleteCabin } from "@/services/api/apiCabins";
-import { toast } from "react-hot-toast";
+import { toast } from "sonner";
 import { useQueryClient } from "@tanstack/react-query";
 
 export default function CabinsTable() {
@@ -59,6 +59,7 @@ export default function CabinsTable() {
         name: cabin.name,
         capacity: cabin.capacity,
         price: cabin.price,
+        discount_amount: cabin.discount_amount,
         discount_percent: cabin.discount_percent,
         description: cabin.description,
       })
@@ -94,6 +95,7 @@ export default function CabinsTable() {
   const labelMap: DataTableProps<CabinRow>["labelMap"] = {
     photo_url: "Photo",
     discount_percent: "Discount %",
+    discount_amount: "Discount $",
   };
 
   return (
