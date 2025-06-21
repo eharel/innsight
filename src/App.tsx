@@ -2,7 +2,8 @@ import { RouterProvider } from "react-router-dom";
 import { router } from "./router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { Toaster } from "react-hot-toast";
+import { Toaster } from "sonner";
+// import { Toaster } from "react-hot-toast";
 import { API } from "./constants";
 
 const queryClient = new QueryClient({
@@ -22,18 +23,12 @@ function App() {
       <RouterProvider router={router} />
       <Toaster
         position="top-right"
-        reverseOrder={false}
-        gutter={16}
-        containerStyle={{ margin: "8px" }}
+        duration={3000}
+        closeButton
+        theme="light"
+        richColors
         toastOptions={{
-          success: { duration: 3000 },
-          error: { duration: 6000 },
-          style: {
-            fontSize: "16px",
-            maxWidth: "500px",
-            padding: "16px 24px",
-            borderRadius: "8px",
-          },
+          className: "!text-sm !max-w-xs !px-4 !py-3 !rounded-lg",
         }}
       />
     </QueryClientProvider>
