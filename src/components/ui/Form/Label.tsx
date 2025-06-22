@@ -11,9 +11,9 @@ export default function Label({
   ...props
 }: LabelProps) {
   return (
-    <label {...props} className={`${className}`}>
+    <label {...props} className={`text-[var(--color-text-main)] text-sm font-medium ${className}`}>
       {children}
-      {variant === "required" && <span className="ml-1 text-red-600">*</span>}
+      {variant === "required" && <span className="ml-1 text-[var(--color-error)]">*</span>}
     </label>
   );
 }

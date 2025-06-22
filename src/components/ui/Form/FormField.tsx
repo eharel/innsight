@@ -51,8 +51,8 @@ export default function FormField({
         {label}
       </Label>
       {modifiedChild}
-      {error && <p className="text-sm text-red-600 mt-1">{error}</p>}
-      {hint && !error && <p className="text-sm text-muted mt-1">{hint}</p>}
+      {error && <p className="text-sm text-[var(--color-error)] mt-1">{error}</p>}
+      {hint && !error && <p className="text-sm text-[var(--color-text-muted)] mt-1">{hint}</p>}
     </div>
   );
 }

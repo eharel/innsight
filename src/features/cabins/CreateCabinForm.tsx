@@ -49,7 +49,7 @@ export default function CreateCabinForm({ onClose }: { onClose: () => void }) {
 
   // TODO: Add form validation. If required fields are missing, show an error message
   return (
-    <div className="bg-white rounded-lg border border-[--color-border] p-6 shadow-sm transition-shadow hover:shadow-md max-w-2xl mx-auto w-full">
+    <div className="bg-[var(--color-bg-base)] rounded-lg border border-[--color-border] p-6 shadow-sm transition-shadow hover:shadow-md max-w-2xl mx-auto w-full">
       <FormProvider {...methods}>
         <Form onSubmit={methods.handleSubmit(onSubmit, onError)}>
           <FormInput
