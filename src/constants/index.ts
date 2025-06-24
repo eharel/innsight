@@ -1,6 +1,8 @@
+export * from "./config";
+
 /**
  * Application Constants
- * 
+ *
  * This file contains all application constants organized by category.
  * As the application grows, consider splitting into domain-specific files.
  */

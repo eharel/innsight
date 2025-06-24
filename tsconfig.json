@@ -4,6 +4,7 @@
     "paths": {
       "@/*": ["./*"]
     },
+    "module": "ES2020",
     "target": "ES2020",
     "jsx": "react-jsx",
     "moduleResolution": "bundler"
