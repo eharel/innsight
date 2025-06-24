@@ -30,12 +30,12 @@ jobs:
       - name: Check for changes
         id: git_status
         run: echo "status=$(git status -s)" >> $GITHUB_OUTPUT
-
+      
       - name: Commit changes
-        if: ${{ contains(steps.git_status.outputs.status, 'src/types/database.types.ts') }}
+        if: ${{ contains(steps.git_status.outputs.status, 'src/types/supabase.types.ts') }}
         run: |
           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add src/types/database.types.ts
-          git commit -m "chore: update database types"
+          git add src/types/supabase.types.ts
+          git commit -m "chore: update Supabase types"
           git push
