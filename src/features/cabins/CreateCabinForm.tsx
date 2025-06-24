@@ -39,7 +39,7 @@ export default function CreateCabinForm({ onClose }: { onClose: () => void }) {
 
   const onSubmit = (data: BaseCabin) => {
     console.log("Creating cabin:", data);
-    createMutation(data);
+    createMutation({ ...data, photo_url: data.photo_url?.[0] });
   };
 
   const onError = (error: unknown) => {
@@ -58,12 +58,14 @@ export default function CreateCabinForm({ onClose }: { onClose: () => void }) {
             required
             validation={{ required: "Name is required" }}
           />
+
           <FormInput
             name="description"
             label="Cabin description"
             required
             validation={{ required: "Description is required" }}
           />
+
           <FormInput
             name="price"
             label="Cabin price"
@@ -74,6 +76,7 @@ export default function CreateCabinForm({ onClose }: { onClose: () => void }) {
               setValueAs: (value) => (value === "" ? undefined : Number(value)),
             }}
           />
+
           <FormInput
             name="discount_amount"
             label="Cabin discount amount"
@@ -89,6 +92,7 @@ export default function CreateCabinForm({ onClose }: { onClose: () => void }) {
               },
             }}
           />
+
           <FormInput
             name="discount_percent"
             label="Cabin discount percentage"
@@ -106,6 +110,7 @@ export default function CreateCabinForm({ onClose }: { onClose: () => void }) {
               },
             }}
           />
+
           <FormInput
             name="capacity"
             label="Cabin capacity"
@@ -116,6 +121,7 @@ export default function CreateCabinForm({ onClose }: { onClose: () => void }) {
               min: { value: 1, message: "Capacity must be at least 1" },
             }}
           />
+
           <FormInput
             name="photo_url"
             label="Cabin image"

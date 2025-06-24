@@ -1,5 +1,5 @@
 export type BaseCabin = {
-  photo_url?: string;
+  photo_url?: File;
   name: string;
   description: string;
   capacity: number;
