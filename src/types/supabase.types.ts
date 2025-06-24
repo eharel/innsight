@@ -107,37 +107,37 @@ export type Database = {
       }
       cabins: {
         Row: {
-          capacity: number | null
+          capacity: number
           created_at: string
-          description: string | null
-          discount_amount: number | null
-          discount_percent: number | null
+          description: string
+          discount_amount: number
+          discount_percent: number
           id: number
-          name: string | null
+          name: string
           photo_url: string | null
-          price: number | null
+          price: number
         }
         Insert: {
-          capacity?: number | null
+          capacity?: number
           created_at?: string
-          description?: string | null
-          discount_amount?: number | null
-          discount_percent?: number | null
+          description?: string
+          discount_amount?: number
+          discount_percent?: number
           id?: number
-          name?: string | null
+          name: string
           photo_url?: string | null
-          price?: number | null
+          price: number
         }
         Update: {
-          capacity?: number | null
+          capacity?: number
           created_at?: string
-          description?: string | null
-          discount_amount?: number | null
-          discount_percent?: number | null
+          description?: string
+          discount_amount?: number
+          discount_percent?: number
           id?: number
-          name?: string | null
+          name?: string
           photo_url?: string | null
-          price?: number | null
+          price?: number
         }
         Relationships: []
       }

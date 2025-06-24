@@ -10,7 +10,7 @@
     "typecheck": "tsc --noEmit -p tsconfig.app.json",
     "lint": "eslint .",
     "preview": "vite preview",
-    "update-types": "npx supabase gen types --lang=typescript --project-id \"okckqyxcosgcaumsuxta\" > src/types/database.types.ts"
+    "update-types": "npx supabase gen types --lang=typescript --project-id \"okckqyxcosgcaumsuxta\" > src/types/supabase.types.ts"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.50.0",

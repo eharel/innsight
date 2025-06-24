@@ -1,5 +1,5 @@
 import { useState } from "react";
-import type { CabinData } from "@/types/db";
+import type { CabinData } from "@/types/db-aliases";
 import { formatCurrency } from "@/utils/helpers";
 import { Button } from "@/components/ui";
 import { useMutation, useQueryClient } from "@tanstack/react-query";

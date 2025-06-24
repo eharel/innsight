@@ -4,22 +4,30 @@ import Spinner from "@/components/ui/base/Spinner";
 import DataTable from "@/components/ui/table/DataTable";
 import { formatCurrency } from "@/utils/helpers";
 import { Button } from "@/components/ui";
-import { CabinRow } from "./types";
+import { CabinRow, CabinTableRow } from "./types";
 import { DataTableProps } from "@/components/ui/table";
 import { Image } from "@/components/ui/base";
 import { useMutation } from "@tanstack/react-query";
 import { deleteCabin } from "@/services/api/apiCabins";
 import { toast } from "sonner";
 import { useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
 
 export default function CabinsTable() {
   const queryClient = useQueryClient();
+  const [deleteId, setDeleteId] = useState<number | null>(null);
 
   const { isPending: isDeleting, mutate: deleteMutation } = useMutation({
     mutationFn: deleteCabin,
-    onSuccess: () => {
-      console.log("Cabin deleted successfully");
-      toast.success("Cabin deleted successfully");
+    onMutate: (id) => {
+      setDeleteId(id);
+    },
+    onSuccess: (_, id) => {
+      const cabinName = cabins?.find((c) => c.id === id)?.name ?? "Cabin";
+      const deleteMsg = `Cabin ${cabinName} deleted successfully`;
+      toast.success(deleteMsg);
+      console.log(deleteMsg);
+
       queryClient.invalidateQueries({
         queryKey: ["cabins"],
       });
@@ -27,6 +35,9 @@ export default function CabinsTable() {
     onError: (error) => {
       console.error("Error deleting cabin:", error);
       toast.error("Error deleting cabin");
+    },
+    onSettled: (_, __, id) => {
+      setDeleteId((currentId) => (currentId === id ? null : currentId));
     },
   });
 
@@ -65,7 +76,7 @@ export default function CabinsTable() {
       })
     ) || [];
 
-  const columnRenderers: DataTableProps<CabinRow>["columnRenderers"] = {
+  const columnRenderers: DataTableProps<CabinTableRow>["columnRenderers"] = {
     photo_url: (value: string) => (
       <Image src={value} alt="Cabin" className="w-16 h-12" enablePreview />
     ),
@@ -76,23 +87,26 @@ export default function CabinsTable() {
         {value}
       </span>
     ),
-    actions: (_, row) => (
-      <div className="flex gap-2">
-        <Button variant="outline" onClick={() => handleEdit(row.id)}>
-          Edit
-        </Button>
-        <Button
-          variant="destructive"
-          onClick={() => deleteMutation(row.id)}
-          disabled={isDeleting}
-        >
-          {isDeleting ? "Deleting..." : "Delete"}
-        </Button>
-      </div>
-    ),
+    actions: (_, row) => {
+      const isDeletingThisCabin = deleteId === row.id;
+      return (
+        <div className="flex gap-2">
+          <Button variant="outline" onClick={() => handleEdit(row.id)}>
+            Edit
+          </Button>
+          <Button
+            variant="destructive"
+            onClick={() => deleteMutation(row.id)}
+            disabled={isDeleting}
+          >
+            {isDeletingThisCabin ? "Deleting..." : "Delete"}
+          </Button>
+        </div>
+      );
+    },
   };
 
-  const labelMap: DataTableProps<CabinRow>["labelMap"] = {
+  const labelMap: DataTableProps<CabinTableRow>["labelMap"] = {
     photo_url: "Photo",
     discount_percent: "Discount %",
     discount_amount: "Discount $",

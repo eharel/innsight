@@ -1,4 +1,4 @@
-import { BaseCabin } from "@/features/cabins";
+import { CabinApiResponse, CabinFormData } from "@/features/cabins";
 import { supabase } from "../supabase/supabase";
 import { SUPABASE } from "@/constants/config";
 import { v4 as uuidv4 } from "uuid";
@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from "uuid";
 const TABLE_NAME = "cabins";
 const COLUMN_NAME = "id";
 
-export async function getCabins() {
+export async function getCabins(): Promise<CabinApiResponse> {
   const { data, error } = await supabase.from(TABLE_NAME).select("*");
 
   if (error) {
@@ -14,23 +14,30 @@ export async function getCabins() {
     throw new Error("Failed to fetch cabins");
   }
 
-  return data;
+  return data ?? [];
 }
 
-export async function createCabin(cabin: BaseCabin) {
+export async function createCabin(cabin: CabinFormData) {
   let imageName = "";
   let imagePath = "";
 
-  if (cabin.photo_url) {
-    const ext = cabin.photo_url.name.split(".").pop(); // e.g., "jpg"
+  const { photo_url, ...formData } = cabin;
+
+  if (photo_url) {
+    const ext = photo_url.name.split(".").pop(); // e.g., "jpg"
     imageName = `${uuidv4()}.${ext}`;
     imagePath = `${SUPABASE.IMAGE_BUCKET_URL}${imageName}`;
   }
 
+  const cabinInsertPayload = {
+    ...formData,
+    photo_url: photo_url ? imagePath : null,
+  };
+
   // 1. Create the cabin (save the image path in DB)
   const { data, error } = await supabase
     .from("cabins")
-    .insert({ ...cabin, photo_url: cabin.photo_url ? imagePath : null })
+    .insert(cabinInsertPayload)
     .select();
 
   if (error) {
@@ -39,10 +46,10 @@ export async function createCabin(cabin: BaseCabin) {
   }
 
   // 2. Upload the image to Supabase storage
-  if (cabin.photo_url) {
+  if (photo_url) {
     const { error: storageError } = await supabase.storage
       .from("cabin-images")
-      .upload(imageName, cabin.photo_url, {
+      .upload(imageName, photo_url, {
         cacheControl: "3600",
         upsert: false,
       });

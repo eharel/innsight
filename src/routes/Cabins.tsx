@@ -4,7 +4,7 @@ import { useState } from "react";
 import CreateCabinForm from "@/features/cabins/CreateCabinForm";
 
 export default function Cabins() {
-  const [showForm, setShowForm] = useState(true);
+  const [showForm, setShowForm] = useState(false);
 
   return (
     <div className="space-y-6">

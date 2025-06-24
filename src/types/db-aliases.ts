@@ -1,9 +1,12 @@
+// Aliased types built from Supabase schema, used across app for clarity.
+// Examples: CabinDB, CabinInsertDB, BookingWithGuestsDB, etc.
+
 import type {
   Tables,
   TablesInsert,
   TablesUpdate,
   Enums,
-} from "@/types/database.types";
+} from "@/types/supabase.types";
 
 // Cabin types
 export type CabinDB = Tables<"cabins">;
