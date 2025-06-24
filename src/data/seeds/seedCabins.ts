@@ -1,6 +1,6 @@
 import { faker } from "@faker-js/faker";
 import { supabaseAdmin } from "@/services/supabase/supabaseAdmin";
-import type { CabinInsertData } from "@/types/db";
+import type { CabinInsertData } from "@/types/db-aliases";
 
 // Cabin types with realistic ranges and descriptions
 const cabinTypes = [

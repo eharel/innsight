@@ -1,6 +1,6 @@
 // src/services/supabase/supabaseAdmin.ts
 import { createClient } from "@supabase/supabase-js";
-import type { Database } from "../../types/database.types";
+import type { Database } from "../../types/supabase.types";
 import dotenv from "dotenv";
 
 dotenv.config({ path: ".env.local" }); // or just `dotenv.config()` if you're using the default `.env`
