@@ -1,4 +1,4 @@
-import { CabinApiResponse, CabinFormData } from "@/features/cabins";
+import { CabinApiResponse, CabinFormData, CabinRow } from "@/features/cabins";
 import { supabase } from "../supabase/supabase";
 import { SUPABASE } from "@/constants/config";
 import { v4 as uuidv4 } from "uuid";
@@ -38,7 +38,8 @@ export async function createCabin(cabin: CabinFormData) {
   const { data, error } = await supabase
     .from("cabins")
     .insert(cabinInsertPayload)
-    .select();
+    .select()
+    .single();
 
   if (error) {
     console.error("Error creating cabin:", error);
@@ -56,10 +57,27 @@ export async function createCabin(cabin: CabinFormData) {
 
     if (storageError) {
       console.error("Error uploading cabin image:", storageError);
-      await deleteCabin(data[0].id); // optional rollback
+      await deleteCabin(data.id); // optional rollback
     }
   }
 
+  return data;
+}
+
+export async function updateCabin(id: number, cabin: CabinFormData) {
+  const { data, error } = await supabase
+    .from(TABLE_NAME)
+    .update(cabin)
+    .eq(COLUMN_NAME, id)
+    .select()
+    .single();
+
+  if (error) {
+    console.error("Error updating cabin:", error);
+    throw new Error("Failed to update cabin");
+  }
+
+  console.log(`Cabin updated successfully: ${id}`);
   return data;
 }
 
@@ -67,7 +85,9 @@ export async function deleteCabin(id: number) {
   const { data, error } = await supabase
     .from(TABLE_NAME)
     .delete()
-    .eq(COLUMN_NAME, id);
+    .eq(COLUMN_NAME, id)
+    .select()
+    .single();
 
   if (error) {
     console.error("Error deleting cabin:", error);

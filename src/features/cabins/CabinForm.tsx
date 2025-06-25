@@ -1,50 +1,44 @@
 import { FormProvider, useForm } from "react-hook-form";
 import { Form, Button } from "@/components/ui";
-import { BaseCabin } from "./types";
-import { useMutation } from "@tanstack/react-query";
-import { createCabin } from "@/services/api/apiCabins";
+import { CabinFormData, CabinRow } from "./types";
+import { createCabin, updateCabin } from "@/services/api/apiCabins";
 import { toast } from "sonner";
-import { useQueryClient } from "@tanstack/react-query";
 import { FormInput } from "@/components/ui/form";
+import { useCrudMutations } from "@/hooks/useCrudMutations";
 
-export default function CreateCabinForm({ onClose }: { onClose: () => void }) {
-  const methods = useForm<BaseCabin>({
-    defaultValues: {
-      name: "",
-      description: "",
-      price: 0,
-      discount_amount: 0,
-      discount_percent: 0,
-      capacity: 0,
-      photo_url: "",
-    },
+export default function CabinForm({
+  onClose,
+  cabin,
+  mode,
+}: {
+  onClose: () => void;
+  mode: "create" | "edit";
+  cabin?: CabinRow;
+}) {
+  const methods = useForm<CabinFormData>({
+    defaultValues: toCabinFormDefaults(cabin),
   });
-  const queryClient = useQueryClient();
-  const { isPending: isCreating, mutate: createMutation } = useMutation({
-    mutationFn: createCabin,
-    onSuccess: () => {
-      console.log("Cabin created successfully");
-      toast.success("Cabin created successfully");
-      queryClient.invalidateQueries({
-        queryKey: ["cabins"],
-      });
-      onClose();
-      methods.reset();
-    },
-    onError: (error) => {
-      console.error("Error creating cabin:", error);
-      toast.error("Error creating cabin");
-    },
-  });
+  const isEdit = mode === "edit";
 
-  const onSubmit = (data: BaseCabin) => {
-    console.log("Creating cabin:", data);
-    createMutation({ ...data, photo_url: data.photo_url?.[0] });
+  const onSubmit = (data: CabinFormData) => {
+    const formattedData = {
+      ...data,
+      photo_url: data.photo_url ?? undefined,
+    };
+
+    console.log(isEdit ? "Updating cabin:" : "Creating cabin:", formattedData);
+
+    if (isEdit && cabin?.id) {
+      updateMutation.mutate({ id: cabin.id, data: formattedData });
+    } else {
+      createMutation.mutate(formattedData);
+    }
   };
 
   const onError = (error: unknown) => {
-    console.error("Error creating cabin:", error);
-    toast.error("Error creating cabin");
+    const msg = isEdit ? "Error updating cabin" : "Error creating cabin";
+    console.error(msg, error);
+    toast.error(msg);
   };
 
   // TODO: Add form validation. If required fields are missing, show an error message
@@ -130,15 +124,35 @@ export default function CreateCabinForm({ onClose }: { onClose: () => void }) {
           />
 
           <div className="flex justify-end gap-2 mt-6">
-            <Button variant="outline" type="reset" disabled={isCreating}>
+            <Button
+              variant="outline"
+              type="reset"
+              // disabled={createMutation.isPending || updateMutation.isPending}
+            >
               Reset
             </Button>
-            <Button type="submit" variant="primary" disabled={isCreating}>
-              Create Cabin
+            <Button
+              type="submit"
+              variant="primary"
+              // disabled={createMutation.isPending || updateMutation.isPending}
+            >
+              {isEdit ? "Update Cabin" : "Create Cabin"}
             </Button>
           </div>
         </Form>
       </FormProvider>
     </div>
   );
+}
+
+function toCabinFormDefaults(cabin?: CabinRow): CabinFormData {
+  return {
+    name: cabin?.name || "",
+    description: cabin?.description || "",
+    price: cabin?.price || 0,
+    discount_amount: cabin?.discount_amount || 0,
+    discount_percent: cabin?.discount_percent || 0,
+    capacity: cabin?.capacity || 0,
+    photo_url: undefined,
+  };
 }
