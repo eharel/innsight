@@ -50,6 +50,7 @@ export default function Button({
       {...props}
       className={`${base} ${variants[variant]} ${sizeClasses[size]} ${className}`}
       disabled={isLoading || disabled}
+      style={{ cursor: disabled ? "not-allowed" : "pointer" }}
     >
       {isLoading && <LoadingSpinner className="mr-2" />}
       {children}

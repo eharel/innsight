@@ -8,7 +8,7 @@ export type CabinApiResponse = CabinApiItem[];
  * Used in Create/Edit forms.
  * Accepts a File object for uploading images.
  */
-export type CabinFormData = Omit<CabinInsertDB, "photo_url"> & {
+export type CabinFormData = Omit<CabinInsertDB, "photo_url" | "created_at"> & {
   photo_url?: File;
 };
 
