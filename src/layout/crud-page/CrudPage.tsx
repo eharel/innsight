@@ -3,28 +3,20 @@ import { CrudMode, CrudPageProps } from "./types";
 import { useState } from "react";
 import { DataTableProps } from "@/components/ui/table";
 import Modal from "@/components/ui/base/Modal";
+import CrudForm from "./CrudForm";
 
-export default function CrudPage<TInput, TOutput extends { id: number }>({
+export default function CrudPage<TForm, TTableDisplay extends { id: number }>({
   title,
-  FormComponent,
   data,
-  createLabel = "+ Add New",
   tableConfig,
-  mutations,
-}: CrudPageProps<TInput, TOutput>) {
+  formInputs,
+  handlers,
+}: CrudPageProps<TForm, TTableDisplay>) {
   const [modalOpen, setModalOpen] = useState(false);
   const [mode, setMode] = useState<CrudMode>("create");
-  const [initialData, setInitialData] = useState<TInput | undefined>(undefined);
-
-  const handleCreate = () => {
-    setInitialData(undefined);
-    setMode("create");
-    setModalOpen(true);
-  };
 
   const handleClose = () => {
     setModalOpen(false);
-    setInitialData(undefined);
   };
 
   const columnActions = {
@@ -45,7 +37,9 @@ export default function CrudPage<TInput, TOutput extends { id: number }>({
           </Button>
           <Button
             variant="destructive"
-            onClick={() => mutations.delete.mutate(row.id)}
+            onClick={() => {
+              handlers?.onDelete?.(row.id);
+            }}
             disabled={isBeingDeleted}
           >
             {isBeingDeleted ? "Deleting..." : "Delete"}
@@ -53,9 +47,9 @@ export default function CrudPage<TInput, TOutput extends { id: number }>({
         </div>
       );
     },
-  } as DataTableProps<TInput & { id: number }>["columnRenderers"];
+  } as DataTableProps<TTableDisplay>["columnRenderers"];
 
-  const tableProps: DataTableProps<TInput & { id: number }> = {
+  const tableProps: DataTableProps<TTableDisplay> = {
     data,
     labelMap: tableConfig.labelMap,
     columnRenderers: {
@@ -73,20 +67,28 @@ export default function CrudPage<TInput, TOutput extends { id: number }>({
           onClick={() => {
             setModalOpen(!modalOpen);
             setMode("create");
-            setInitialData(undefined);
           }}
         >
-          {modalOpen ? "Close" : createLabel}
+          {modalOpen ? "Close" : "Create"}
         </Button>
       </div>
 
       <DataTable {...tableProps} />
 
       <Modal isOpen={modalOpen} onClose={handleClose}>
-        <FormComponent
-          mode={mode}
-          onClose={handleClose}
-          initialData={initialData}
+        <CrudForm
+          formInputs={formInputs}
+          isEdit={mode === "edit"}
+          onSubmit={(data) => {
+            if (mode === "edit") {
+              // You probably want to store `row.id` in state earlier when editing
+              // For now, hardcoded/fake id to illustrate:
+              handlers.onUpdate?.(/* id */ 123, data);
+            } else {
+              handlers.onCreate?.(data);
+            }
+          }}
+          onError={handlers.onError}
         />
       </Modal>
     </div>

@@ -1,10 +1,8 @@
 import { FormProvider, useForm } from "react-hook-form";
 import { Form, Button } from "@/components/ui";
 import { CabinFormData, CabinRow } from "./types";
-import { createCabin, updateCabin } from "@/services/api/apiCabins";
 import { toast } from "sonner";
 import { FormInput } from "@/components/ui/form";
-import { useCrudMutations } from "@/hooks/useCrudMutations";
 
 export default function CabinForm({
   onClose,

@@ -39,7 +39,7 @@ export default function Modal({ isOpen, onClose, children }: ModalProps) {
           >
             <motion.div
               key="modal"
-              className="relative bg-white dark:bg-gray-900 rounded-lg shadow-xl p-6 max-w-xl w-full"
+              className="relative bg-white dark:bg-gray-900 rounded-lg shadow-xl p-6 max-w-xl w-full max-h-[90vh] overflow-y-auto"
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
@@ -52,7 +52,7 @@ export default function Modal({ isOpen, onClose, children }: ModalProps) {
               >
                 <IoClose size={24} />
               </button>
-              {children}
+              <div className="p-6">{children}</div>
             </motion.div>
           </FocusTrap>
         </motion.div>
