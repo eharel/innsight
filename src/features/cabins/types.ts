@@ -21,3 +21,10 @@ export type CabinRow = Omit<CabinApiItem, "created_at">;
 export type CabinTableRow = CabinRow & {
   actions?: never;
 };
+
+export type CabinInsertPayload = Omit<
+  CabinInsertDB,
+  "created_at" | "photo_url"
+> & {
+  photo_url?: string | null;
+};

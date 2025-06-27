@@ -1,4 +1,8 @@
-import { CabinApiResponse, CabinFormData, CabinRow } from "@/features/cabins";
+import {
+  CabinApiResponse,
+  CabinFormData,
+  CabinInsertPayload,
+} from "@/features/cabins";
 import { supabase } from "../supabase/supabase";
 import { SUPABASE } from "@/constants/config";
 import { v4 as uuidv4 } from "uuid";
@@ -29,9 +33,9 @@ export async function createCabin(cabin: CabinFormData) {
     imagePath = `${SUPABASE.IMAGE_BUCKET_URL}${imageName}`;
   }
 
-  const cabinInsertPayload = {
+  const cabinInsertPayload: CabinInsertPayload = {
     ...formData,
-    photo_url: photo_url ? imagePath : null,
+    photo_url: imagePath,
   };
 
   // 1. Create the cabin (save the image path in DB)
@@ -65,9 +69,16 @@ export async function createCabin(cabin: CabinFormData) {
 }
 
 export async function updateCabin(id: number, cabin: CabinFormData) {
+  const { photo_url, ...formData } = cabin;
+
+  const updatePayload: CabinInsertPayload = {
+    ...formData,
+    photo_url: typeof photo_url === "string" ? photo_url : null,
+  };
+
   const { data, error } = await supabase
     .from(TABLE_NAME)
-    .update(cabin)
+    .update(updatePayload)
     .eq(COLUMN_NAME, id)
     .select()
     .single();

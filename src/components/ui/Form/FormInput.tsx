@@ -2,7 +2,7 @@ import { RegisterOptions, useFormContext } from "react-hook-form";
 import FormField from "./FormField";
 import Input from "@/components/ui/base/Input";
 
-type FormInputProps = {
+export type FormInputProps = {
   name: string;
   label: string;
   type?: string;
@@ -23,6 +23,7 @@ export default function FormInput({
     register,
     formState: { errors },
   } = useFormContext();
+
   return (
     <FormField
       label={label}
