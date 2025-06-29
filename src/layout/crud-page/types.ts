@@ -1,5 +1,4 @@
-import { FormInputProps } from "@/components/ui";
-import { ReactNode } from "react";
+import { DataTableProps, FormInputProps } from "@/components/ui";
 import { RegisterOptions, UseFormReturn } from "react-hook-form";
 
 // ============================================================
@@ -18,16 +17,13 @@ export type CrudHandlers<TForm> = {
 
 export type CrudPageProps<TForm, TTableDisplay extends { id: number }> = {
   title: string;
-  queryKey: string;
-  data: TTableDisplay[];
-
-  tableConfig: CrudTableConfig<TTableDisplay>;
+  tableProps: DataTableProps<TTableDisplay>;
   formInputs: CrudFormInput<TForm>[];
   handlers: CrudHandlers<TForm>;
 
   // Built-in behavioral hooks
-  isDeleting?: (id: number) => boolean;
-  extraActions?: (row: TTableDisplay) => ReactNode;
+  // isDeleting?: (id: number) => boolean;
+  // extraActions?: (row: TTableDisplay) => ReactNode;
 };
 
 // ============================================================
@@ -64,13 +60,12 @@ export type InternalCrudFormProps<TForm> = {
 // ========================= Table ============================
 // ============================================================
 
-export type CrudTableConfig<T> = {
-  columns: (keyof T & string)[];
-  labelMap?: Partial<Record<keyof T, string>>;
-  // columnRenderers?: Partial<
-  //   Record<keyof T & string, (value: any, row: T) => ReactNode>
-  // >;
-  columnRenderers?: {
-    [K in keyof T & string]?: (value: T[K], row: T) => ReactNode;
-  };
-};
+// export type CrudTableConfig<T> = {
+//   labelMap?: Partial<Record<keyof T, string>>;
+//   // columnRenderers?: Partial<
+//   //   Record<keyof T & string, (value: any, row: T) => ReactNode>
+//   // >;
+//   columnRenderers?: {
+//     [K in keyof T & string]?: (value: T[K], row: T) => ReactNode;
+//   };
+// };

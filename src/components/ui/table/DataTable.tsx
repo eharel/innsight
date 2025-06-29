@@ -1,12 +1,12 @@
-import { ReactNode } from "react";
+import React, { ReactNode } from "react";
 
 export type DataTableProps<T extends { id: string | number }> = {
   data: T[];
-  headers?: ReadonlyArray<keyof T & string>;
   columnRenderers?: Partial<
     Record<keyof T & string, (value: T[keyof T], row: T) => ReactNode>
   >;
   labelMap?: Partial<Record<keyof T & string, string>>;
+  rowActions?: Array<(row: T) => ReactNode>;
   displayId?: boolean;
   hideRowIndex?: boolean;
 };
@@ -15,6 +15,7 @@ export default function DataTable<T extends { id: string | number }>({
   data,
   columnRenderers,
   labelMap,
+  rowActions,
   displayId = false,
   hideRowIndex = false,
 }: DataTableProps<T>) {
@@ -43,6 +44,9 @@ export default function DataTable<T extends { id: string | number }>({
                 {labelMap?.[header] ?? formatHeaderLabel(header)}
               </th>
             ))}
+            {rowActions?.length > 0 && (
+              <th className="px-4 py-2 whitespace-nowrap">Actions</th>
+            )}
           </tr>
         </thead>
         <tbody className="divide-y divide-border">
@@ -61,6 +65,18 @@ export default function DataTable<T extends { id: string | number }>({
                     : String(item[header])}
                 </td>
               ))}
+
+              {rowActions?.length > 0 && (
+                <td className="px-4 py-2 whitespace-nowrap">
+                  <div className="flex gap-2">
+                    {rowActions.map((action, index) => (
+                      <React.Fragment key={index}>
+                        {action(item)}
+                      </React.Fragment>
+                    ))}
+                  </div>
+                </td>
+              )}
             </tr>
           ))}
         </tbody>

@@ -1,61 +1,22 @@
 import { Button, DataTable } from "@/components/ui";
 import { CrudMode, CrudPageProps } from "./types";
 import { useState } from "react";
-import { DataTableProps } from "@/components/ui/table";
 import Modal from "@/components/ui/base/Modal";
 import CrudForm from "./CrudForm";
+import { defaultRowActions } from "@/components/ui/table/rowActions";
 
 export default function CrudPage<TForm, TTableDisplay extends { id: number }>({
   title,
-  data,
-  tableConfig,
+  tableProps,
   formInputs,
   handlers,
 }: CrudPageProps<TForm, TTableDisplay>) {
+  const [editingRow, setEditingRow] = useState<TTableDisplay | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [mode, setMode] = useState<CrudMode>("create");
 
   const handleClose = () => {
     setModalOpen(false);
-  };
-
-  const columnActions = {
-    actions: (_, row) => {
-      // TODO: track if this row is being deleted
-      const isBeingDeleted = false;
-      return (
-        <div className="flex gap-2">
-          <Button
-            variant="outline"
-            // onClick={() => mutations.update.mutate({ id: row.id, data: row })}
-            onClick={() => {
-              console.log(`Edit: ${row.id}`);
-              setModalOpen(true);
-            }}
-          >
-            Edit
-          </Button>
-          <Button
-            variant="destructive"
-            onClick={() => {
-              handlers?.onDelete?.(row.id);
-            }}
-            disabled={isBeingDeleted}
-          >
-            {isBeingDeleted ? "Deleting..." : "Delete"}
-          </Button>
-        </div>
-      );
-    },
-  } as DataTableProps<TTableDisplay>["columnRenderers"];
-
-  const tableProps: DataTableProps<TTableDisplay> = {
-    data,
-    labelMap: tableConfig.labelMap,
-    columnRenderers: {
-      ...columnActions,
-      ...tableConfig.columnRenderers,
-    },
   };
 
   return (
@@ -73,7 +34,19 @@ export default function CrudPage<TForm, TTableDisplay extends { id: number }>({
         </Button>
       </div>
 
-      <DataTable {...tableProps} />
+      <DataTable
+        {...tableProps}
+        rowActions={defaultRowActions<TTableDisplay>({
+          onEdit: (row) => {
+            setModalOpen(true);
+            setMode("edit");
+            setEditingRow(row);
+          },
+          onDelete: (row) => {
+            handlers.onDelete?.(row.id);
+          },
+        })}
+      />
 
       <Modal isOpen={modalOpen} onClose={handleClose}>
         <CrudForm
@@ -83,7 +56,7 @@ export default function CrudPage<TForm, TTableDisplay extends { id: number }>({
             if (mode === "edit") {
               // You probably want to store `row.id` in state earlier when editing
               // For now, hardcoded/fake id to illustrate:
-              handlers.onUpdate?.(/* id */ 123, data);
+              handlers.onUpdate?.(editingRow?.id, data);
             } else {
               handlers.onCreate?.(data);
             }
