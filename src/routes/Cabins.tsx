@@ -1,4 +1,3 @@
-import CabinForm from "@/features/cabins/CabinForm";
 import CrudPage from "@/layout/crud-page/CrudPage";
 import { useQueryClient, useQuery } from "@tanstack/react-query";
 import { getCabins } from "@/services/api/apiCabins";
@@ -15,11 +14,7 @@ import {
 import { CrudFormInput, CrudHandlers } from "@/layout/crud-page/types";
 
 export default function Cabins() {
-  const {
-    isPending,
-    data: cabins,
-    error,
-  } = useQuery({
+  const cabins = useQuery({
     queryKey: ["cabins"],
     queryFn: getCabins,
   });
@@ -54,7 +49,7 @@ export default function Cabins() {
   };
 
   const cabinsData: CabinRow[] =
-    cabins?.map(
+    cabins?.data?.map(
       (cabin): CabinRow => ({
         id: cabin.id,
         photo_url: cabin.photo_url,
@@ -67,17 +62,17 @@ export default function Cabins() {
       })
     ) || [];
 
+  const tableProps: DataTableProps<CabinRow> = {
+    data: cabinsData,
+    labelMap,
+    columnRenderers,
+  };
+
   return (
     <CrudPage
       title="Cabins"
-      queryKey="cabins"
-      data={cabinsData}
+      tableProps={tableProps}
       formInputs={formInputs}
-      tableConfig={{
-        columns: [],
-        labelMap,
-        columnRenderers,
-      }}
       handlers={crudPageHandlers}
     />
   );
