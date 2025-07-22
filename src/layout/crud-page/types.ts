@@ -8,8 +8,12 @@ import { RegisterOptions, UseFormReturn } from "react-hook-form";
 export type CrudMode = "create" | "edit";
 
 export type CrudHandlers<TForm> = {
-  onCreate?: (data: TForm) => void;
-  onUpdate?: (id: number, data: TForm) => void;
+  onCreate?: (data: TForm, options?: { onSuccess?: () => void }) => void;
+  onUpdate?: (
+    id: number,
+    data: TForm,
+    options?: { onSuccess?: () => void }
+  ) => void;
   onDelete?: (id: number) => void;
   onSubmit?: (data: TForm) => void;
   onError?: (error: unknown) => void;
@@ -19,7 +23,10 @@ export type CrudPageProps<TForm, TTableDisplay extends { id: number }> = {
   title: string;
   tableProps: DataTableProps<TTableDisplay>;
   formInputs: CrudFormInput<TForm>[];
+  defaultValuesMapper?: (row: TTableDisplay) => Partial<TForm>;
   handlers: CrudHandlers<TForm>;
+  onSuccess?: () => void;
+  onError?: (error: unknown) => void;
 
   // Built-in behavioral hooks
   // isDeleting?: (id: number) => boolean;
@@ -49,6 +56,7 @@ export type CrudFormInput<TForm> = Omit<
  * Used by CrudPage to render the form UI.
  */
 export type InternalCrudFormProps<TForm> = {
+  defaultValues?: Partial<TForm>;
   formInputs: CrudFormInput<TForm>[];
   isEdit?: boolean;
   title?: string;

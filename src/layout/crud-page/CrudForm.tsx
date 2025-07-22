@@ -1,5 +1,5 @@
 import { FormInputProps, FormInput } from "@/components/ui";
-import { RegisterOptions, useForm } from "react-hook-form";
+import { DefaultValues, RegisterOptions, useForm } from "react-hook-form";
 import { FormProvider } from "react-hook-form";
 import { Button } from "@/components/ui";
 import { Form } from "@/components/ui/form";
@@ -9,10 +9,13 @@ import { CrudFormInput, InternalCrudFormProps } from "./types";
 export default function CrudForm<T>({
   formInputs = [],
   isEdit,
+  defaultValues,
   onSubmit,
   onError,
 }: InternalCrudFormProps<T>) {
-  const methods = useForm<T>();
+  const methods = useForm<T>({
+    defaultValues: defaultValues as DefaultValues<T>,
+  });
 
   return (
     <div className="bg-[var(--color-bg-base)] rounded-lg border border-[--color-border] p-6 shadow-sm transition-shadow hover:shadow-md max-w-2xl mx-auto w-full">

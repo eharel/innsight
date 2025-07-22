@@ -25,3 +25,6 @@ dist-ssr
 
 # Commit message draft
 .commit-draft.md
+
+# Scratch diff file
+scratch.diff

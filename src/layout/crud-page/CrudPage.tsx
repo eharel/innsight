@@ -1,23 +1,54 @@
+import {
+  forwardRef,
+  JSX,
+  useImperativeHandle,
+  useState,
+  type ForwardedRef,
+} from "react";
+
 import { Button, DataTable } from "@/components/ui";
 import { CrudMode, CrudPageProps } from "./types";
-import { useState } from "react";
 import Modal from "@/components/ui/base/Modal";
 import CrudForm from "./CrudForm";
 import { defaultRowActions } from "@/components/ui/table/rowActions";
 
-export default function CrudPage<TForm, TTableDisplay extends { id: number }>({
-  title,
-  tableProps,
-  formInputs,
-  handlers,
-}: CrudPageProps<TForm, TTableDisplay>) {
+function CrudPageInner<TForm, TTableDisplay extends { id: number }>(
+  {
+    title,
+    tableProps,
+    formInputs,
+    handlers,
+    defaultValuesMapper,
+  }: CrudPageProps<TForm, TTableDisplay>,
+  ref: ForwardedRef<CrudPageHandle<TTableDisplay>>
+) {
   const [editingRow, setEditingRow] = useState<TTableDisplay | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [mode, setMode] = useState<CrudMode>("create");
 
-  const handleClose = () => {
-    setModalOpen(false);
+  const handleClose = () => setModalOpen(false);
+
+  const onSubmit = (data: TForm) => {
+    if (mode === "edit") {
+      handlers.onUpdate?.(editingRow?.id, data, { onSuccess: handleClose });
+    } else {
+      handlers.onCreate?.(data, { onSuccess: handleClose });
+    }
   };
+
+  // 👇 Expose modal control via the ref
+  useImperativeHandle(ref, () => ({
+    closeModal: handleClose,
+    openCreateModal: () => {
+      setMode("create");
+      setModalOpen(true);
+    },
+    openEditModal: (row: TTableDisplay) => {
+      setEditingRow(row);
+      setMode("edit");
+      setModalOpen(true);
+    },
+  }));
 
   return (
     <div className="space-y-6">
@@ -52,18 +83,32 @@ export default function CrudPage<TForm, TTableDisplay extends { id: number }>({
         <CrudForm
           formInputs={formInputs}
           isEdit={mode === "edit"}
-          onSubmit={(data) => {
-            if (mode === "edit") {
-              // You probably want to store `row.id` in state earlier when editing
-              // For now, hardcoded/fake id to illustrate:
-              handlers.onUpdate?.(editingRow?.id, data);
-            } else {
-              handlers.onCreate?.(data);
-            }
-          }}
+          defaultValues={
+            mode === "edit"
+              ? defaultValuesMapper?.(editingRow as TTableDisplay) ?? undefined
+              : undefined
+          }
+          onSubmit={onSubmit}
           onError={handlers.onError}
         />
       </Modal>
     </div>
   );
 }
+
+export type CrudPageHandle<TTableDisplay = unknown> = {
+  closeModal: () => void;
+  openCreateModal: () => void;
+  openEditModal: (row: TTableDisplay) => void;
+};
+
+const CrudPage = forwardRef(CrudPageInner) as <
+  TForm,
+  TTableDisplay extends { id: number }
+>(
+  props: CrudPageProps<TForm, TTableDisplay> & {
+    ref?: React.Ref<CrudPageHandle<TTableDisplay>>;
+  }
+) => JSX.Element;
+
+export default CrudPage;
