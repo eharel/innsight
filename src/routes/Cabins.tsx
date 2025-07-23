@@ -12,8 +12,12 @@ import {
   deleteCabin,
 } from "@/services/api/apiCabins";
 import { CrudFormInput, CrudHandlers } from "@/layout/crud-page/types";
+import { useRef } from "react";
+import { CrudPageHandle } from "@/layout/crud-page/CrudPage";
 
 export default function Cabins() {
+  const ref = useRef<CrudPageHandle<CabinRow>>(null);
+
   const cabins = useQuery({
     queryKey: ["cabins"],
     queryFn: getCabins,
@@ -27,6 +31,7 @@ export default function Cabins() {
     deleteFn: deleteCabin,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["cabins"] });
+      ref.current?.closeModal();
     },
   });
 
@@ -74,6 +79,8 @@ export default function Cabins() {
       tableProps={tableProps}
       formInputs={formInputs}
       handlers={crudPageHandlers}
+      defaultValuesMapper={defaultValuesMapper}
+      ref={ref}
     />
   );
 }
@@ -123,14 +130,12 @@ const formInputs: CrudFormInput<CabinFormData>[] = [
   {
     name: "discount_amount",
     label: "Cabin discount amount",
-    required: true,
     validation: (methods) => ({
-      required: "Discount amount is required",
       min: { value: 0, message: "Discount amount cannot be negative" },
       setValueAs: (value) => (value === "" ? undefined : Number(value)),
       validate: (value) => {
         const price = methods.getValues("price");
-        if (value <= price) return true;
+        if (value <= price || value === undefined) return true;
         return "Discount amount cannot exceed price";
       },
     }),
@@ -138,10 +143,8 @@ const formInputs: CrudFormInput<CabinFormData>[] = [
   {
     name: "discount_percent",
     label: "Cabin discount percentage",
-    required: true,
     validation: {
       setValueAs: (value) => (value === "" ? undefined : Number(value)),
-      required: "Discount percentage is required",
       min: {
         value: 0,
         message: "Discount percentage cannot be negative",
@@ -169,3 +172,13 @@ const formInputs: CrudFormInput<CabinFormData>[] = [
     validation: {},
   },
 ];
+
+const defaultValuesMapper = (row: CabinRow) => ({
+  name: row.name,
+  description: row.description,
+  price: row.price,
+  discount_amount: row.discount_amount,
+  discount_percent: row.discount_percent,
+  capacity: row.capacity,
+  photo_url: undefined,
+});
